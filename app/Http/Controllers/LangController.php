@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use App;
-  
+use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 
 class LangController extends Controller
 {
@@ -17,7 +18,8 @@ class LangController extends Controller
     */
     public function index(): View
     {
-        return view('lang');
+        $categories = Category::get();
+        return view('lang',compact('categories'));
     }
   
     /**

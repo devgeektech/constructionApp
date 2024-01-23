@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Product;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\BaseController as BaseController;
@@ -8,8 +8,8 @@ use App\Models\Product;
 use Validator;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\JsonResponse;
-   
-class ProductController extends BaseController
+
+class IndexController extends BaseController
 {
     /**
      * Display a listing of the resource.

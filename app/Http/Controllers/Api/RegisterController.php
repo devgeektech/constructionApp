@@ -20,7 +20,7 @@ class RegisterController extends BaseController
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required',
         ]);
    
@@ -30,12 +30,15 @@ class RegisterController extends BaseController
    
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
+        $input['role'] = 2;
         $user = User::create($input);
         $success['token'] =  $user->createToken('construction')->plainTextToken;
+        $success['id'] =  $user->id;
         $success['name'] =  $user->name;
         $success['email'] =  $user->email;
+        $success['role'] =  getRole($user->role)->name;
    
-        return $this->sendResponse($success, 'User register successfully.');
+        return $this->sendResponse($success, trans('auth.login'));
     }
    
     /**
@@ -49,7 +52,10 @@ class RegisterController extends BaseController
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){ 
             $user = Auth::user(); 
             $success['token'] =  $user->createToken('construction')->plainTextToken; 
+            $success['id'] =  $user->id;
             $success['name'] =  $user->name;
+            $success['email'] =  $user->email;
+            $success['role'] = getRole($user->role)->name;
    
             return $this->sendResponse($success, trans('auth.login'));
         } 

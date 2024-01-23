@@ -9,5 +9,8 @@ return [
     'product_delete' => 'Produit esengeli na suksesá.',
 
     //Categories
-    'retrieve_categories' => 'Bakótá bázáki lisúsú.'
+    'retrieve_categories' => 'Bakótá bázáki lisúsú.',
+    //Store
+    'create_store' => 'Boutíki etúngisi liboso.',
+    'retrieve_store' => 'Boutíki elókó epesákisi etúngisi.',
 ];

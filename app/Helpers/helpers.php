@@ -2,6 +2,7 @@
   
 use Carbon\Carbon;
 use App\Models\Category;  
+use App\Models\Role;  
 /**
  * Write code on Method
  *
@@ -14,5 +15,13 @@ if (! function_exists('getCategoryName')) {
         return $category;
     }
 }
- 
+
+if (! function_exists('getRole')) {
+    function getRole($id)
+    {
+        $role = Role::where('id',$id)->first();
+        return $role;
+    }
+}
+
 ?>

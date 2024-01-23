@@ -12,13 +12,14 @@ class Product extends Model
         'name',
         'description',
         'price',
+        'image',
+        'user_id',
         'category_id',
-        'reviews',
-        'address',
-        'status'
+        'store_id',
+        'availability',
+        'stock'
     ];
-
-    public $translatable = ['name','description','status'];
+    public $translatable = ['name','description'];
     
     public function category()
     {

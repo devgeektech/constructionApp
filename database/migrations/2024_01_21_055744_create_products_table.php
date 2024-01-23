@@ -14,15 +14,18 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->json('name');
-            $table->json('description');
+            $table->json('description')->nullable();
             $table->decimal('price', 10, 2);
+            $table->string('image');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('reviews');
-            $table->string('address');
-            $table->json('status');
-            $table->timestamps();
-
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->unsignedBigInteger('store_id');
+            $table->foreign('store_id')->references('id')->on('stores');
+            $table->json('availability')->nullable();
+            $table->json('stock');
+            $table->timestamps();
         });
     }
 

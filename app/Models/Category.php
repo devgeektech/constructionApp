@@ -11,14 +11,20 @@ class Category extends Model
     use HasTranslations;
 
     protected $fillable = [
-        'name'
+        'name',
+        'image',
+        'description'
     ];
 
-    public $translatable = ['name'];
+    public $translatable = ['name','description'];
 
     public function products()
     {
         return $this->hasMany(Product::class);
     }
 
+    public function setImage($imageName)
+    {
+        $this->attributes['image'] = $imageName;
+    }
 }

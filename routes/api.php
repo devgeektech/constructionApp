@@ -3,8 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\RegisterController;
-use App\Http\Controllers\Api\ProductController;
-use App\Http\Controllers\Api\Category\IndexController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,10 +23,15 @@ Route::middleware('auth:sanctum')->group( function () {
     /**
      * Product Routes
      */
-    Route::resource('products', ProductController::class);
-
+    Route::resource('products', 'App\Http\Controllers\Api\Product\IndexController');
     /**
      * Categories Routes
      */
-    Route::get('categories', [IndexController::class,'index']);
+    Route::get('categories', [App\Http\Controllers\Api\Category\IndexController::class,'index']);
+
+    /**
+     * Store Routes
+     */
+    Route::post('store', [App\Http\Controllers\Api\Store\IndexController::class,'store']);
+    Route::get('store', [App\Http\Controllers\Api\Store\IndexController::class,'index']);
 });
