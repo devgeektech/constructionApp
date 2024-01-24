@@ -16,5 +16,5 @@ return [
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
+    'forgot_password_email' => 'Tunaki yebaki boya ndako ya ebongiseli mpo na kobimisa motema oyo ebongisaka!',
 ];

@@ -11,6 +11,7 @@
  use Illuminate\Foundation\Auth\User as Authenticatable;
  use Illuminate\Notifications\Notifiable;
  use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Casts\Attribute;
  
  class User extends Authenticatable
 {
@@ -38,4 +39,15 @@
 		'address',
 		'remember_token'
 	];
+
+	public function providers() {
+        return $this->hasMany(Provider::class,'user_id','id');
+    }
+
+	protected function role(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) =>  [1, 2, 3][$value],
+        );
+    }
 }

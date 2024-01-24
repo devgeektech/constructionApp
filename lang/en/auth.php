@@ -13,9 +13,10 @@ return [
     |
     */
     'login' => 'User login successfully.',
-    'register' => 'Registration successful! Welcome to our platform.',
+    'register' => 'Registration successful',
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'forgot_password_email' =>'We have e-mailed your password reset link!',
 
 ];

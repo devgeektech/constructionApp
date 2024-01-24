@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\RegisterController;
 Route::controller(RegisterController::class)->group(function(){
     Route::post('register', 'register');
     Route::post('login', 'login');
+    Route::post('forget-password','submitForget'); 
 });
         
 Route::middleware('auth:sanctum')->group( function () {
@@ -35,3 +36,4 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::post('store', [App\Http\Controllers\Api\Store\IndexController::class,'store']);
     Route::get('store', [App\Http\Controllers\Api\Store\IndexController::class,'index']);
 });
+
