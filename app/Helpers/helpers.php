@@ -3,6 +3,8 @@
 use Carbon\Carbon;
 use App\Models\Category;  
 use App\Models\Role;  
+use App\Models\Store;  
+use App\Models\ProductImage;  
 /**
  * Write code on Method
  *
@@ -21,6 +23,22 @@ if (! function_exists('getRole')) {
     {
         $role = Role::where('id',$id)->first();
         return $role;
+    }
+}
+
+if (! function_exists('getStoreName')) {
+    function getStoreName($id)
+    {
+        $store = Store::where('id',$id)->first();
+        return $store;
+    }
+}
+
+if (! function_exists('getProductImages')) {
+    function getProductImages($id)
+    {
+        $images = ProductImage::where('product_id',$id)->pluck('name');
+        return $images;
     }
 }
 

@@ -8,6 +8,7 @@ use App\Models\Product;
 use Validator;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\JsonResponse;
+use App\Models\ProductImage;
 
 class IndexController extends BaseController
 {
@@ -33,10 +34,12 @@ class IndexController extends BaseController
                 'name' => $product->name,
                 'description' => $product->description,
                 'price' => $product->price,
-                'category' => getCategoryName($product->category_id)->name,
-                'reviews' => $product->reviews,
-                'address' => $product->address,
-                'status' => $product->status,
+                'image' => getProductImages($product->id),
+                'user_id' => getRole($product->user_id)->name,
+                'category_id' => getCategoryName($product->category_id)->name,
+                'store_id' => getStoreName($product->store_id)->name,
+                'availability' => $product->availability,
+                'stock' => $product->stock,
                 'created_at' => $product->created_at->format('d/m/Y'),
                 'updated_at' => $product->updated_at->format('d/m/Y'),
             ];
@@ -55,18 +58,34 @@ class IndexController extends BaseController
    
         $validator = Validator::make($input, [
             'name' => 'required',
-            'description' => 'required',
-            'price' => 'required',
-            'category_id' => 'required',
-            'reviews' => 'required',
-            'address' => 'required',
-            'status' => 'required'
+            'description'=> 'required',
+            'price'=> 'required',
+            'image'=> 'required',
+            'user_id'=> 'required',
+            'category_id'=> 'required',
+            'store_id'=> 'required',
+            'availability'=> 'required',
+            'stock'=> 'required'
         ]);
    
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
 
+        $images = [];
+        if ($request->image){
+            foreach($request->image as $key => $img)
+            {
+                $imageName = time() . rand(1, 99) . '.' . $img->extension();
+                $img->storeAs('public/images', $imageName);
+                $images[] = ['name' => $imageName];
+            }
+        }
+    
+        
+        if (!empty($images)) {
+            $firstImage = $images[0]['name'];
+        }
         $product = new Product();
         $product->setTranslation('name', 'en', 'Product Name in English');
         $product->setTranslation('name', 'fr', 'Nom du produit en français');
@@ -77,15 +96,25 @@ class IndexController extends BaseController
         $product->setTranslation('description', 'ln', 'Description du produit en lingala');
         
         $product->price = $request->price;
+        $product->image = $firstImage ;
+        $product->user_id = $request->user_id;
         $product->category_id = $request->category_id;
-        $product->reviews = $request->reviews;
-        $product->address = $request->address;
-
-        $product->setTranslation('status', 'en', 'Available'); 
-        $product->setTranslation('status', 'fr', 'Disponible');
-        $product->setTranslation('status', 'ln', 'Elongi');
+        $product->store_id = $request->store_id;
+        $product->setTranslation('availability', 'en', 'Available');
+        $product->setTranslation('availability', 'fr', 'Disponible');
+        $product->setTranslation('availability', 'ln', 'Elongi');
+        $product->stock = $request->stock;
         $product->save();
-       
+
+        foreach ($images as $key => $image) {
+
+            $data = [
+                'user_id' => $request->user_id,
+                'product_id' => $product->id,
+                'name' => $image['name']
+            ];
+            ProductImage::create($data);
+        }
    
         return $this->sendResponse(new ProductResource($product), trans('messages.product_create'));
     } 

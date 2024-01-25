@@ -14,6 +14,13 @@
                 </div>
             </div>
         </form>
+        <div class="col-md-4">
+            <select class="form-control changeLang">
+                <option value="en" {{ session()->get('locale') == 'en' ? 'selected' : '' }}>English</option>
+                <option value="fr" {{ session()->get('locale') == 'fr' ? 'selected' : '' }}>France</option>
+                <option value="ln" {{ session()->get('locale') == 'ln' ? 'selected' : '' }}>Lingala</option>
+            </select>
+        </div>
         <!-- User -->
         <ul class="navbar-nav align-items-center d-none d-md-flex">
             <li class="nav-item dropdown">
@@ -31,7 +38,7 @@
                     <div class=" dropdown-header noti-title">
                         <h6 class="text-overflow m-0">{{ __('Welcome!') }}</h6>
                     </div>
-                    <a href="{{ route('profile.edit') }}" class="dropdown-item">
+                    <a href="#" class="dropdown-item">
                         <i class="ni ni-single-02"></i>
                         <span>{{ __('My profile') }}</span>
                     </a>
@@ -48,22 +55,11 @@
                         <span>{{ __('Support') }}</span>
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">
+                    <a href="{{ route('custom.logout') }}" class="dropdown-item">
                         <i class="ni ni-user-run"></i>
                         <span>{{ __('Logout') }}</span>
                     </a>
                     <div class="row">
-                    <div class="col-md-2 col-md-offset-6 text-right">
-                        <strong>Select Language: </strong>
-                    </div>
-                    <div class="col-md-4">
-                        <select class="form-control changeLang">
-                            <option value="en" {{ session()->get('locale') == 'en' ? 'selected' : '' }}>English</option>
-                            <option value="fr" {{ session()->get('locale') == 'fr' ? 'selected' : '' }}>France</option>
-                            <option value="ln" {{ session()->get('locale') == 'ln' ? 'selected' : '' }}>Lingala</option>
-                        </select>
-                    </div>
                 </div>
                 </div>
             </li>

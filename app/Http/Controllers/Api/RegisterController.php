@@ -35,13 +35,13 @@ class RegisterController extends BaseController
    
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
-        $input['role'] = $input['role'];
+        $input['role_id'] = $input['role'];
         $user = User::create($input);
         $success['token'] =  $user->createToken('construction')->plainTextToken;
         $success['id'] =  $user->id;
         $success['name'] =  $user->name;
         $success['email'] =  $user->email;
-        $success['role'] =  getRole($user->role)->name;
+        $success['role'] =  getRole($user->role_id)->name;
    
         return $this->sendResponse($success, trans('auth.register'));
     }
@@ -60,7 +60,7 @@ class RegisterController extends BaseController
             $success['id'] =  $user->id;
             $success['name'] =  $user->name;
             $success['email'] =  $user->email;
-            $success['role'] = getRole($user->role)->name;
+            $success['role'] = getRole($user->role_id)->name;
    
             return $this->sendResponse($success, trans('auth.login'));
         } 
@@ -133,5 +133,11 @@ class RegisterController extends BaseController
         return redirect('/')->with('message', 'Your password has been changed!');
     }
 
+    public function social_login(Request $request){
+        echo"<pre>";
+        print_r($request);
+        die();
+    }
+    
 
 }

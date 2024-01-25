@@ -20,7 +20,9 @@ class Store extends Model
         'phone',
         'social_links'
 	];
-
-    
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
     
 }

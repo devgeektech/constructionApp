@@ -19,10 +19,14 @@ class Product extends Model
         'availability',
         'stock'
     ];
-    public $translatable = ['name','description'];
+    public $translatable = ['name','description','availability'];
     
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
     }
 }

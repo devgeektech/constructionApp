@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Models\User;
+use App\Models\Store;
+use App\Models\Product;
+use App\Models\Category;
 class HomeController extends Controller
 {
     /**
@@ -24,7 +28,13 @@ class HomeController extends Controller
      */
     public function index(): View
     {
-        return view('home');
+        $stores = Store::count();
+        $products = Product::count();
+        $categories = Category::count();
+        $users = User::count();
+        $getProducts = Product::all();
+        $getStores = Store::all();
+        return view('dashboard',compact(['stores','products','categories','users','getProducts','getStores']));
     } 
   
     /**

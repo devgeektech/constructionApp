@@ -33,7 +33,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 		'email',
 		'email_verified_at',
 		'password',
-		'role',
+		'role_id',
 		'image',
 		'phone',
 		'address',
@@ -44,7 +44,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
         return $this->hasMany(Provider::class,'user_id','id');
     }
 
-	protected function role(): Attribute
+	protected function role_id(): Attribute
     {
         return new Attribute(
             get: fn ($value) =>  [1, 2, 3][$value],
