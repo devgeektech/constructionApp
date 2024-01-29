@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use App\Models\ProductRatings;
 class ProductResource extends JsonResource
 {
     /**
@@ -14,14 +14,22 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $product_rating = ProductRatings::where('product_id',$this->id)->count();
+        $averageRating = ProductRatings::where('product_id', $this->id)
+        ->avg('reviews');
         return [
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,
-            'category' => getCategoryName($this->category_id)->name,
-            'created_at' => $this->created_at->format('d/m/Y'),
-            'updated_at' => $this->updated_at->format('d/m/Y'),
+            'image' => getProductImages($this->id),
+            'user_id' => getRole($this->user_id)->name,
+            'category_id' => getCategoryName($this->category_id)->name,
+            'store_id' => getStoreName($this->store_id)->name,
+            'availability' => $this->availability,
+            'stock' => $this->stock,
+            'total_ratings' => $product_rating,
+            'avg_ratings' => $averageRating,
         ];
     }
 }

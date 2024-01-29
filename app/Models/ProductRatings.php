@@ -13,4 +13,9 @@ class ProductRatings extends Model
 		'reviews',
         'add_info'
 	];
+
+	public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

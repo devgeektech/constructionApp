@@ -29,4 +29,38 @@ class IndexController extends Controller
            
         }
     }
+
+    /**
+     * Edit Store
+     */
+    public function edit($id){
+        try {
+            
+            $store = Store::where('id',$id)->first();
+            return view('admin.store.edit',compact(['store']));
+        } catch (\Throwable $th) {
+            
+        }
+    }
+    /**
+     * Update Store
+     */
+    public function update(Request $request, $id){
+        try {
+
+            $request->validate([
+                'name' => 'required',
+                'owner' => 'required',
+                'address' => 'required',
+            ]);
+
+            $store = Store::find($id);
+
+            $store->fill($request->post())->save();
+            
+            return redirect()->route('stores');
+        } catch (\Throwable $th) {
+            
+        }
+    }
 }

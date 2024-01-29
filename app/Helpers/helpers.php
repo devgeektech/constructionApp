@@ -5,6 +5,7 @@ use App\Models\Category;
 use App\Models\Role;  
 use App\Models\Store;  
 use App\Models\ProductImage;  
+use Illuminate\Support\Facades\Storage;
 /**
  * Write code on Method
  *
@@ -37,7 +38,10 @@ if (! function_exists('getStoreName')) {
 if (! function_exists('getProductImages')) {
     function getProductImages($id)
     {
-        $images = ProductImage::where('product_id',$id)->pluck('name');
+        $images = ProductImage::where('product_id', $id)->pluck('name')->map(function($image) {
+            return asset(Storage::url('images/' . $image));
+        });
+
         return $images;
     }
 }

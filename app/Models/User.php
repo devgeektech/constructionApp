@@ -37,17 +37,20 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 		'image',
 		'phone',
 		'address',
-		'remember_token'
+		'remember_token',
+		'is_social',
+		'social_id',
+		'login_type'
 	];
 
 	public function providers() {
         return $this->hasMany(Provider::class,'user_id','id');
     }
 
-	protected function role_id(): Attribute
-    {
-        return new Attribute(
-            get: fn ($value) =>  [1, 2, 3][$value],
-        );
-    }
+	// protected function role_id(): Attribute
+    // {
+    //     return new Attribute(
+    //         get: fn ($value) =>  [1, 2, 3][$value],
+    //     );
+    // }
 }

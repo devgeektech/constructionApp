@@ -33,7 +33,7 @@ Route::get('logout', [AuthController::class, 'logout'])->name('custom.logout');
 
 Route::get('reset-password/{token}', [RegisterController::class, 'showResetPasswordForm'])->name('reset.password.get');
 Route::post('reset-password', [RegisterController::class, 'submitResetPasswordForm'])->name('reset.password.post');
-Auth::routes();
+// Auth::routes();
 
 /**
  * Change Language Routes
@@ -45,8 +45,10 @@ Route::get('lang/change', [LangController::class, 'change'])->name('changeLang')
 
 Route::middleware(['auth', 'user-access:1'])->group(function () { 
     Route::get('admin', [HomeController::class, 'index'])->name('home');
-
+    //Stores
     Route::get('stores', [IndexController::class, 'index'])->name('stores');
+    Route::get('store/edit/{id}', [IndexController::class, 'edit'])->name('store.edit');
+    Route::post('store/update/{id}', [IndexController::class, 'update'])->name('store.update');
 
     Route::get('products', [App\Http\Controllers\Web\Products\IndexController::class, 'index'])->name('products');
 

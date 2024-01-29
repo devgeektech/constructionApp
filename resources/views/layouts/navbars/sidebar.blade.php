@@ -111,7 +111,7 @@
             <!-- Navigation -->
             <ul class="navbar-nav mb-md-3">
                 <li class="nav-item">
-                    <a class="nav-link" href="https://argon-dashboard-laravel.creative-tim.com/docs/components/alerts.html">
+                    <a href="{{ route('custom.logout') }}"> 
                         <i class="ni ni-ui-04"></i> Sign Out
                     </a>
                 </li>
