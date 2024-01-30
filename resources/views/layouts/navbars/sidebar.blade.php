@@ -75,32 +75,37 @@
             <!-- Navigation -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home') }}">
-                        <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
+                    <a class="nav-link {{ request()->is('admin') ? 'active' : '' }}" href="{{ route('home') }}">
+                        <i class="ni ni-tv-2 text-primary "></i> {{ __('Dashboard') }}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('stores') }}">
-                        <i class="ni ni-shop text-primary"></i> {{ __('Stores') }}
+                    <a class="nav-link {{ (request()->is('banners')) || (request()->is('banner/*')) ? 'active' : '' }}" href="{{ route('admin.banners') }}">
+                        <i class="ni ni-shop text-primary "></i> {{ __('Banners') }}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link {{ (request()->is('stores')) || (request()->is('store/*')) ? 'active' : '' }}" href="{{ route('admin.stores') }}">
+                        <i class="ni ni-shop text-primary "></i> {{ __('Stores') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ (request()->is('categories')) || (request()->is('category/*')) ? 'active' : '' }}" href="{{ route('admin.categories') }}">
                     <i class="ni ni-tag text-primary"></i> {{ __('Categories') }}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('products') }}">
+                    <a class="nav-link {{ (request()->is('products')) || (request()->is('product/*')) ? 'active' : '' }}" href="{{ route('admin.products') }}">
                     <i class="ni ni-box-2 text-primary"></i> {{ __('Products') }}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link {{ (request()->is('vendors')) || (request()->is('vendor/*')) ? 'active' : '' }}" href="{{ route('admin.vendors') }}">
                         <i class="ni ni-delivery-fast text-primary"></i> {{ __('Vendors') }}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link {{ (request()->is('customers')) || (request()->is('customer/*')) ? 'active' : '' }}" href="{{ route('admin.customers') }}">
                         <i class="ni ni-single-02 text-primary"></i>{{ __('Customers') }}
                     </a>
                 </li>

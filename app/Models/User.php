@@ -47,6 +47,10 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
         return $this->hasMany(Provider::class,'user_id','id');
     }
 
+	public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 	// protected function role_id(): Attribute
     // {
     //     return new Attribute(

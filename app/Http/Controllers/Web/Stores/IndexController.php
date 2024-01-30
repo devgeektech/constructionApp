@@ -18,12 +18,8 @@ class IndexController extends Controller
 
     public function index(){
         try {
-            $stores = Store::count();
-            $products = Product::count();
-            $categories = Category::count();
-            $users = User::count();
             $getStores = Store::all();
-            return view('admin.store.index',compact(['stores','products','categories','users','getStores']));
+            return view('admin.store.index',compact(['getStores']));
             
         } catch (\Throwable $th) {
            
@@ -46,21 +42,42 @@ class IndexController extends Controller
      * Update Store
      */
     public function update(Request $request, $id){
-        try {
 
+        try {
+           
             $request->validate([
                 'name' => 'required',
                 'owner' => 'required',
                 'address' => 'required',
+                'latitude' => 'required',
+                'longitude' => 'required',
+                'phone' => 'required',
             ]);
-
+           
             $store = Store::find($id);
-
-            $store->fill($request->post())->save();
-            
-            return redirect()->route('stores');
+           
+            if ($request->hasFile('logo')) {
+                $logoName = 'logo-'.time().'.'.$request->logo->extension();  
+                $request->logo->storeAs('public/images', $logoName);
+            }
+            if ($request->hasFile('banner')) {
+                $bannerName = 'banner-'.time().'.'.$request->banner->extension();  
+                $request->banner->storeAs('public/images', $bannerName);
+            }
+           
+            $store->name = $request->name;
+            $store->owner = $request->owner;
+            $store->address = $request->address;
+            $store->latitude = $request->latitude;
+            $store->longitude = $request->longitude;
+            $store->logo = isset($logoName) ? $logoName : $store->logo;
+            $store->banner = isset($bannerName) ? $bannerName : $store->banner;
+            $store->phone = $request->phone;
+            $store->save();
+           
+            return redirect()->route('admin.stores');
         } catch (\Throwable $th) {
-            
+            return view('admin.store.edit',compact('store'));
         }
     }
 }

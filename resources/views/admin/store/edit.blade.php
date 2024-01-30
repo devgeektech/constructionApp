@@ -25,11 +25,11 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('store.update',$store->id) }}" method="POST">
+                    <form action="{{ route('store.update',$store->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                        
                         <h6 class="heading-small text-muted mb-4">{{ __('Store information') }}</h6>
-                        <input type="hidden" value="{{ $store->id}}" id="store_id" name="store_id">
+                      
                         @if (session('status'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 {{ session('status') }}
@@ -43,7 +43,7 @@
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">{{ __('Name') }}</label>
-                                <input type="text" name="name" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Name') }}" value="{{ old('name', $store->name) }}" required autofocus>
+                                <input type="text" name="name" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Name') }}" value="{{ old('name', $store->name) }}"  autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback" role="alert">
@@ -73,8 +73,63 @@
                                 @endif
                             </div>
 
+                            <div class="form-group{{ $errors->has('latitude') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="input-latitude">{{ __('Latitude') }}</label>
+                                <input type="text" name="latitude" id="input-latitude" class="form-control form-control-alternative{{ $errors->has('latitude') ? ' is-invalid' : '' }}" placeholder="{{ __('Latitude') }}" value="{{ old('latitude', $store->latitude) }}" required>
+
+                                @if ($errors->has('latitude'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('latitude') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group{{ $errors->has('longitude') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="input-longitude">{{ __('Longitude') }}</label>
+                                <input type="text" name="longitude" id="input-longitude" class="form-control form-control-alternative{{ $errors->has('longitude') ? ' is-invalid' : '' }}" placeholder="{{ __('Longitude') }}" value="{{ old('logitude', $store->longitude) }}" required>
+
+                                @if ($errors->has('longitude'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('longitude') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+
+                            <div class="form-group{{ $errors->has('logo') ? ' has-danger' : '' }} custom-image">
+                                <label class="form-control-label" for="input-image">{{ __('Logo') }}</label>
+                                <img id="logo-preview" src="{{ $store->logo ? asset(Storage::url('images/' . $store->logo)) : asset(Storage::url('images/Image_not_available.png')) }}" height="200" width="200">
+                                <input type="file" id="input-logo" name="logo" class="form-control">
+                                @if ($errors->has('logo'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('logo') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group{{ $errors->has('banner') ? ' has-danger' : '' }} custom-image">
+                                <label class="form-control-label" for="input-banner">{{ __('Banner') }}</label>
+                                <img id="banner-preview" src="{{ $store->banner ? asset(Storage::url('images/' . $store->banner)) : asset(Storage::url('images/Image_not_available.png')) }}" height="200" width="200">
+                                <input type="file" id="input-banner" name="banner" class="form-control">
+                                @if ($errors->has('banner'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('banner') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group{{ $errors->has('phone') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="input-phone">{{ __('Phone') }}</label>
+                                <input type="text" name="phone" id="input-phone" class="form-control form-control-alternative{{ $errors->has('phone') ? ' is-invalid' : '' }}" placeholder="{{ __('phone') }}" value="{{ old('phone', $store->phone) }}" required>
+
+                                @if ($errors->has('phone'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('phone') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
                             <div class="text-right">
-                                <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
+                                <button type="submit" class="btn btn-success mt-4">{{ __('Update') }}</button>
                             </div>
                         </div>
                     </form>
@@ -96,4 +151,23 @@
 @push('js')
     <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.min.js"></script>
     <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.extension.js"></script>
+    <script>
+        document.getElementById('input-logo').addEventListener('change', function() {
+            var file = this.files[0];
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('logo-preview').setAttribute('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        document.getElementById('input-banner').addEventListener('change', function() {
+            var file = this.files[0];
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('banner-preview').setAttribute('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
 @endpush

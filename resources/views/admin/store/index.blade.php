@@ -38,14 +38,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
+                        
                             @foreach($getStores as $store)
                                 <tr>
                                     <td>{{ $store->name }}</td>
                                     <td>{{ $store->owner }}</td>
                                     <td>{{ $store->address }}</td>
-                                    <td><img src="{{asset(Storage::url('images/' . $store->logo))}}" height="40" width="40"></td>
-                                    <td><img src="{{asset(Storage::url('images/' . $store->banner))}}" height="40" width="40"></td>
+                                    <td><img src="{{ $store->logo ? asset(Storage::url('images/' . $store->logo)) : asset(Storage::url('images/Image_not_available.png')) }}" height="40" width="40"></td>
+                                    <td><img src="{{ $store->banner ? asset(Storage::url('images/' . $store->banner)) : asset(Storage::url('images/Image_not_available.png')) }}" height="40" width="40"></td>
                                     <td>{{ $store->phone }}</td>
                                     <td>
                                         <div class="dropdown">

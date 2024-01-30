@@ -9,6 +9,13 @@ class Banner extends Model
 {
     
     protected $fillable = [
-		'name'
+		'name',
+		'store_id'
 	];
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
+	
 }

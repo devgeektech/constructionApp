@@ -24,5 +24,11 @@ class Store extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    
+    public function banner()
+    {
+        return $this->hasMany(Banner::class);
+    }
     
 }

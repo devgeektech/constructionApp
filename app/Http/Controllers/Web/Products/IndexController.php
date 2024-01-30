@@ -19,12 +19,8 @@ class IndexController extends Controller
 
      public function index(){
         try {
-            $stores = Store::count();
-            $products = Product::count();
-            $categories = Category::count();
-            $users = User::count();
             $getProducts = Product::all();
-            return view('admin.products.index',compact(['stores','products','categories','users','getProducts']));
+            return view('admin.products.index',compact(['getProducts']));
             
         } catch (\Throwable $th) {
            

@@ -45,11 +45,34 @@ Route::get('lang/change', [LangController::class, 'change'])->name('changeLang')
 
 Route::middleware(['auth', 'user-access:1'])->group(function () { 
     Route::get('admin', [HomeController::class, 'index'])->name('home');
+
+    //Banners
+    Route::get('banners', [App\Http\Controllers\Web\Banners\IndexController::class, 'index'])->name('admin.banners');
+    Route::get('banner', [App\Http\Controllers\Web\Banners\IndexController::class, 'create'])->name('admin.banner.add');
+    Route::post('banner', [App\Http\Controllers\Web\Banners\IndexController::class, 'store'])->name('admin.banner.store');
+    Route::get('banner/edit/{id}', [App\Http\Controllers\Web\Banners\IndexController::class, 'edit'])->name('admin.banner.edit');
+    Route::post('banner/update/{id}', [App\Http\Controllers\Web\Banners\IndexController::class, 'update'])->name('admin.banner.update');
+
     //Stores
-    Route::get('stores', [IndexController::class, 'index'])->name('stores');
+    Route::get('stores', [IndexController::class, 'index'])->name('admin.stores');
     Route::get('store/edit/{id}', [IndexController::class, 'edit'])->name('store.edit');
     Route::post('store/update/{id}', [IndexController::class, 'update'])->name('store.update');
 
-    Route::get('products', [App\Http\Controllers\Web\Products\IndexController::class, 'index'])->name('products');
+    //Products
+    Route::get('products', [App\Http\Controllers\Web\Products\IndexController::class, 'index'])->name('admin.products');
 
+    //Categories
+    Route::get('categories', [App\Http\Controllers\Web\Categories\IndexController::class, 'index'])->name('admin.categories');
+    Route::get('category/edit/{id}', [App\Http\Controllers\Web\Categories\IndexController::class, 'edit'])->name('admin.category.edit');
+    Route::post('category/update/{id}', [App\Http\Controllers\Web\Categories\IndexController::class, 'update'])->name('admin.category.update');
+
+    //Customers
+    Route::get('customers', [App\Http\Controllers\Web\Customers\IndexController::class, 'index'])->name('admin.customers');
+    Route::get('customer/edit/{id}', [App\Http\Controllers\Web\Customers\IndexController::class, 'edit'])->name('admin.customer.edit');
+    Route::post('customer/update/{id}', [App\Http\Controllers\Web\Customers\IndexController::class, 'update'])->name('admin.customer.update');
+
+    //Vendors
+    Route::get('vendors', [App\Http\Controllers\Web\Vendors\IndexController::class, 'index'])->name('admin.vendors');
+    Route::get('vendor/edit/{id}', [App\Http\Controllers\Web\Vendors\IndexController::class, 'edit'])->name('admin.vendor.edit');
+    Route::post('vendor/update/{id}', [App\Http\Controllers\Web\Vendors\IndexController::class, 'update'])->name('admin.vendor.update');
 });

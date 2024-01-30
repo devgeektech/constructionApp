@@ -14,7 +14,7 @@
                 </div>
             </div>
         </form>
-        <div class="col-md-4">
+        <div class="form-group mb-0">
             <select class="form-control changeLang">
                 <option value="en" {{ session()->get('locale') == 'en' ? 'selected' : '' }}>English</option>
                 <option value="fr" {{ session()->get('locale') == 'fr' ? 'selected' : '' }}>France</option>

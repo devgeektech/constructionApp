@@ -13,10 +13,10 @@
                 <div class="card-header border-0">
                     <div class="row align-items-center">
                         <div class="col-8">
-                            <h3 class="mb-0">Products</h3>
+                            <h3 class="mb-0">Banners</h3>
                         </div>
                         <div class="col-4 text-right">
-                            <!-- <a href="" class="btn btn-sm btn-primary">Add user</a> -->
+                            <a href="{{ route('admin.banner.add')}}" class="btn btn-sm btn-primary">Add Banner</a>
                         </div>
                     </div>
                 </div>
@@ -28,34 +28,24 @@
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Price</th>
                                 <th scope="col">Image</th>
                                 <th scope="col">Store</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Availability</th>
-                                <th scope="col">Stock</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             
-                            @foreach($getProducts as $product)
+                            @foreach($banners as $banner)
                                 <tr>
-                                    <td>{{ $product->name }}</td>
-                                    <td>{{ $product->price }}</td>
-                                    <td><img src="{{ $product->image ? asset(Storage::url('images/' . $product->image)) : asset(Storage::url('images/Image_not_available.png')) }}" height="40" width="40"></td>
-                                    <td>{{ $product->store->name }}</td>
-                                    <td>{{ $product->category->name }}</td>
-                                    <td>{{ $product->availability }}</td>
-                                    <td>{{ $product->stock }}</td>
+                                    <td><img src="{{ $banner->name ? asset(Storage::url('images/' . $banner->name)) : asset(Storage::url('images/Image_not_available.png')) }}" height="40" width="40"></td>
+                                    <td>{{ $banner->store->name }}</td>
                                     <td>
                                         <div class="dropdown">
-                                            <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <a class="btn btn-sm btn-icon-only text-light" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                    <a class="dropdown-item" href="">Edit</a>
+                                                    <a class="dropdown-item" href="{{route('admin.banner.edit',$banner->id)}}">Edit</a>
                                             </div>
                                         </div>
                                     </td>

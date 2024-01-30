@@ -21,7 +21,8 @@ class IndexController extends BaseController
         try {
             $input = $request->all();
             $validator = Validator::make($input, [
-                'image' => 'required'
+                'image' => 'required',
+                'store_id' => 'required'
             ]);
         
             if($validator->fails()){
@@ -34,6 +35,7 @@ class IndexController extends BaseController
             
             $banner = new Banner();
             $banner->name = $bannerImage;
+            $banner->store_id = $request->store_id;
             $banner->save();
             if($banner){
                 return $this->sendResponse($banner, trans('messages.store_banner'));
