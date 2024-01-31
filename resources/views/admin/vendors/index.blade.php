@@ -30,9 +30,7 @@
                             <tr>
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Role</th>
                                 <th scope="col">Image</th>
-                                <th scope="col">Address</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -42,9 +40,8 @@
                                 <tr>
                                     <td>{{ $vendor->name }}</td>
                                     <td>{{ $vendor->email }}</td>
-                                    <td>{{ $vendor->role->name }}</td>
                                     <td><img src="{{ $vendor->image ? asset(Storage::url('images/' . $vendor->image)) : asset(Storage::url('images/user.png')) }}" height="40" width="40"></td>
-                                    <td>{{ $vendor->address }}</td>
+                                   
                                     <td>
                                         <div class="dropdown">
                                             <a class="btn btn-sm btn-icon-only text-light" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

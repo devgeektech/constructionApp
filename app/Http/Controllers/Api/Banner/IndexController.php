@@ -11,6 +11,21 @@ use Validator;
 
 class IndexController extends BaseController
 {
+    /**
+     * Get Banners
+     */
+    public function index(){
+        try {
+            $banners = Banner::all();
+            if($banners){
+                return $this->sendResponse($banners, trans('messages.get_banners'));
+            }
+            return $this->sendError('No Banner found.', ['error'=>'Unauthorised']);
+        } catch (\Throwable $th) {
+            return $this->sendError('Something went wrong', $th->getMessage());
+        }
+    }
+
    /**
      * Store a newly created resource in storage.
      *

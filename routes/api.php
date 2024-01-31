@@ -40,12 +40,16 @@ Route::middleware('auth:sanctum')->group( function () {
      */
     Route::post('store', [App\Http\Controllers\Api\Store\IndexController::class,'store']);
     Route::get('store', [App\Http\Controllers\Api\Store\IndexController::class,'index']);
+
     /**
      * Banner Routes
      */
+    Route::get('banners', [App\Http\Controllers\Api\Banner\IndexController::class,'index']);
     Route::post('store-banner', [App\Http\Controllers\Api\Banner\IndexController::class,'store']);
 
-    // Profile
+    /**
+     * Profile
+     */
     Route::post('update-profile',[App\Http\Controllers\Api\RegisterController::class,'update_profile']); 
     Route::get('get-profile',[App\Http\Controllers\Api\RegisterController::class,'get_profile']); 
 });

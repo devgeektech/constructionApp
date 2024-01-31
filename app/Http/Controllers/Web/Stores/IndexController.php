@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Store;
 use App\Models\Product;
 use App\Models\Category;
+use Mail; 
 class IndexController extends Controller
 {
     /**
@@ -79,5 +80,28 @@ class IndexController extends Controller
         } catch (\Throwable $th) {
             return view('admin.store.edit',compact('store'));
         }
+    }
+    /**
+     * Change Status
+     */
+    public function changeStatus(Request $request) {
+        try {
+            $store = Store::find($request->id);
+            $store->status = $request->status;
+            $store->save();
+          
+            if($store){
+                
+                Mail::send('email.storeApproved', ['store' => $store], function($message) use($store){
+                    $message->to($store->user->email);
+                    $message->subject('Store Approval Notification');
+                });
+                return response()->json(['success'=>'Status change successfully.']);
+            }
+            
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+       
     }
 }

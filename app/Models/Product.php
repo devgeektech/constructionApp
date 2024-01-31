@@ -17,7 +17,9 @@ class Product extends Model
         'category_id',
         'store_id',
         'availability',
-        'stock'
+        'stock',
+        'status',
+        'available_by'
     ];
     public $translatable = ['name','description','availability'];
     

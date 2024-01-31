@@ -57,10 +57,11 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::get('stores', [IndexController::class, 'index'])->name('admin.stores');
     Route::get('store/edit/{id}', [IndexController::class, 'edit'])->name('store.edit');
     Route::post('store/update/{id}', [IndexController::class, 'update'])->name('store.update');
+    Route::get('/changeStatus', [IndexController::class, 'changeStatus']);
 
     //Products
     Route::get('products', [App\Http\Controllers\Web\Products\IndexController::class, 'index'])->name('admin.products');
-
+    Route::get('/changeProductStatus', [App\Http\Controllers\Web\Products\IndexController::class, 'change_product_status']);
     //Categories
     Route::get('categories', [App\Http\Controllers\Web\Categories\IndexController::class, 'index'])->name('admin.categories');
     Route::get('category/edit/{id}', [App\Http\Controllers\Web\Categories\IndexController::class, 'edit'])->name('admin.category.edit');

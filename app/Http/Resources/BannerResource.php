@@ -17,7 +17,7 @@ class BannerResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => asset('storage/images/' .$this->name),
-            'store' => $this->store->name
+            'store' => $this->store
         ];
     }
 }

@@ -26,4 +26,20 @@ class IndexController extends Controller
            
         }
     }
+
+    /**
+     * Change Status
+     */
+    public function change_product_status(Request $request) {
+        try {
+            $product = Product::find($request->id);
+            $product->status = $request->status;
+            $product->save();
+            
+            return response()->json(['success'=>'Status change successfully.']);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+       
+    }
 }

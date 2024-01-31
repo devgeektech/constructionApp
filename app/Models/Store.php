@@ -20,15 +20,20 @@ class Store extends Model
         'phone',
         'social_links'
 	];
+
+    
     public function products()
     {
         return $this->hasMany(Product::class);
     }
-
-    
     public function banner()
     {
         return $this->hasMany(Banner::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
     
 }
