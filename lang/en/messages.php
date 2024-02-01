@@ -23,4 +23,15 @@ return [
      //profile
      'get_profile' => 'Profile fetched successfully.',
      'update_profile' => 'Profile updated successfully.',
+
+     //Sidebar
+     'dashboard' => 'Dashboard',
+     'banners' => 'Banners',
+     'stores' => 'Stores',
+     'categories' => 'Categories',
+     'products' => 'Products',
+     'contribution' => 'Contribution',
+     'vendors' => 'Vendors',
+     'customers' => 'Customers',
+
 ];

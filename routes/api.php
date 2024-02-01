@@ -21,10 +21,12 @@ Route::controller(RegisterController::class)->group(function(){
     Route::post('social-login','social_login'); 
 });
 
-//home api
-Route::get('home', [App\Http\Controllers\Api\HomeController::class,'index']);  
 
-Route::middleware('auth:sanctum')->group( function () {
+
+Route::middleware('auth.sanctum')->group( function () {
+
+    //home api
+    Route::get('home', [App\Http\Controllers\Api\HomeController::class,'index']);  
     /**
      * Product Routes
      */
@@ -40,6 +42,7 @@ Route::middleware('auth:sanctum')->group( function () {
      */
     Route::post('store', [App\Http\Controllers\Api\Store\IndexController::class,'store']);
     Route::get('store', [App\Http\Controllers\Api\Store\IndexController::class,'index']);
+    Route::get('store/{id}', [App\Http\Controllers\Api\Store\IndexController::class,'show']);
 
     /**
      * Banner Routes
@@ -52,5 +55,11 @@ Route::middleware('auth:sanctum')->group( function () {
      */
     Route::post('update-profile',[App\Http\Controllers\Api\RegisterController::class,'update_profile']); 
     Route::get('get-profile',[App\Http\Controllers\Api\RegisterController::class,'get_profile']); 
+
+    /**
+     * Wishlist
+     */
+    Route::get('wishlist',[App\Http\Controllers\Api\Wishlist\IndexController::class,'index']);
+    Route::post('wishlist',[App\Http\Controllers\Api\Wishlist\IndexController::class,'store']);
 });
 

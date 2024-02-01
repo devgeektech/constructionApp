@@ -26,7 +26,7 @@ class IndexController extends BaseController
         try {
             $desiredLanguage = $request->header('Accept-Language');
             app()->setLocale($desiredLanguage);
-            $get_products = Product::all();
+            $get_products = Product::where('status',1)->get();
             $products = ProductResource::collection($get_products);
             if($products){
                 return $this->sendResponse($products, trans('messages.product_retrieve'));
@@ -97,6 +97,7 @@ class IndexController extends BaseController
             $product->setTranslation('availability', 'fr', 'Disponible');
             $product->setTranslation('availability', 'ln', 'Elongi');
             $product->stock = $request->stock;
+            $product->status = 0;
             $product->save();
 
             foreach ($images as $key => $image) {
@@ -134,7 +135,7 @@ class IndexController extends BaseController
                 return $this->sendError('Product not found.');
             }
             //get stores
-            $get_stores = Store::all();
+            $get_stores = Store::orderBy('count','desc')->get();
             $stores = StoreResource::collection($get_stores);
 
             $responseData = [
@@ -216,7 +217,8 @@ class IndexController extends BaseController
 
             $cat_id = $input['cat_id'] ?? null;
             $min_rating = $input['ratings'] ?? null;
-            $price = $input['price'] ?? null;
+            $min_price = $input['min_price'] ?? null;
+            $max_price = $input['max_price'] ?? null;
             
             $query = Product::query();
 
@@ -230,8 +232,8 @@ class IndexController extends BaseController
                 });
             }
 
-            if ($price !== null) {
-                $query->where('price', '<=', $price);
+            if ($min_price !== null || $max_price !== null) {
+                $query->where('price', '>=', $min_price)->where('price', '<=', $max_price);
             }
 
             $get_products = $query->get();

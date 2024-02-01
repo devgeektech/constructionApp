@@ -53,6 +53,7 @@ class IndexController extends Controller
             $banner = new Banner();
             $banner->name = $bannerImage;
             $banner->store_id = $request->store;
+            $banner->status = 0;
             $banner->save();
             if($banner){
                 $banners = Banner::all();
@@ -104,5 +105,24 @@ class IndexController extends Controller
         } catch (\Throwable $th) {
            
         }
+    }
+
+    /**
+     * Change Status
+     */
+    public function changeBannerStatus(Request $request) {
+        try {
+            $banner = Banner::find($request->id);
+            $banner->status = $request->status;
+            $banner->save();
+          
+            if($banner){
+                return response()->json(['success'=>'Status change successfully.']);
+            }
+            
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+       
     }
 }

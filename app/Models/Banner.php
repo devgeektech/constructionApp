@@ -10,7 +10,8 @@ class Banner extends Model
     
     protected $fillable = [
 		'name',
-		'store_id'
+		'store_id',
+        'status'
 	];
 
     public function store()

@@ -25,7 +25,8 @@ class StoreResource extends JsonResource
             'logo' => asset('storage/images/' .$this->logo),
             'banner' => asset('storage/images/' .$this->banner),
             'phone' => $this->phone,
-            'social_links' => $this->social_links
+            'social_links' => $this->social_links,
+            'count' => $this->count
         ];
     }
 }

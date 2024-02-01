@@ -24,28 +24,11 @@ class IndexController extends BaseController
             $desiredLanguage = $request->header('Accept-Language');
             app()->setLocale($desiredLanguage);
 
-            $stores = Store::all();
+            //get stores
+            $get_stores = Store::where('status',1)->orderBy('count','desc')->get();
+            $stores = StoreResource::collection($get_stores);
 
-            $translatedStores = [];
-            foreach ($stores as $store) {
-                // Add the translated name to the product data
-                $translatedStores[] = [
-                    'id' => $store->id,
-                    'user_id' => $store->user_id,
-                    'name' => $store->name,
-                    'owner' => $store->owner,
-                    'address' => $store->address,
-                    'latitude' => $store->latitude,
-                    'longitude' => $store->longitude,
-                    'logo' => asset(Storage::url('images/' . $store->logo)),
-                    'banner' => asset(Storage::url('images/' . $store->banner)),
-                    'phone' => $store->phone,
-                    'social_links' => $store->social_links,
-                    'created_at' => $store->created_at->format('d/m/Y'),
-                    'updated_at' =>$store->updated_at->format('d/m/Y'),
-                ];
-            }
-            return $this->sendResponse($translatedStores, trans('messages.retrieve_store'));
+            return $this->sendResponse($stores, trans('messages.retrieve_store'));
         } catch (\Throwable $th) {
             return $this->sendError('Something went wrong', $th->getMessage());     
         }
@@ -96,6 +79,9 @@ class IndexController extends BaseController
             $store->banner = $bannerName;
             $store->phone = $request->phone;
             $store->social_links = $request->social_links;
+            $store->status = 0;
+            $store->is_featured = 0;
+            $store->count = 0;
             $store->save();
         
     
@@ -105,4 +91,30 @@ class IndexController extends BaseController
         }
         
     } 
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id): JsonResponse
+    {
+        try {
+            $store = Store::find($id);
+            if (is_null($store)) {
+                return $this->sendError('Store not found.');
+            }
+            if($store){
+                $store->count = $store->count+1;
+                $store->save();
+
+                return $this->sendResponse($store, trans('messages.store_retrieve'));
+            }
+            
+        } catch (\Throwable $th) {
+            return $this->sendError('Something went wrong', $th->getMessage());   
+        }
+        
+    }
 }

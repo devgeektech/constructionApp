@@ -39,6 +39,19 @@ class IndexController extends Controller
             
         }
     }
+
+    /**
+     * View Store
+     */
+    public function view($id){
+        try {
+            
+            $store = Store::where('id',$id)->first();
+            return view('admin.store.view',compact(['store']));
+        } catch (\Throwable $th) {
+            
+        }
+    }
     /**
      * Update Store
      */
@@ -97,6 +110,24 @@ class IndexController extends Controller
                     $message->subject('Store Approval Notification');
                 });
                 return response()->json(['success'=>'Status change successfully.']);
+            }
+            
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    /**
+     * Change Featured Status
+     */
+    public function isFeatured(Request $request) {
+        try {
+            $store = Store::find($request->id);
+            $store->is_featured = $request->is_featured;
+            $store->save();
+            $featured_status = ($request->is_featured == 1) ? 'Featured' : 'Not Featured';
+            if($store){
+                return response()->json(['success'=>'Store '.$featured_status.' successfully.']);
             }
             
         } catch (\Throwable $th) {

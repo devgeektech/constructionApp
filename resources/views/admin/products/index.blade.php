@@ -16,7 +16,7 @@
                             <h3 class="mb-0">Products</h3>
                         </div>
                         <div class="col-4 text-right">
-                            <!-- <a href="" class="btn btn-sm btn-primary">Add user</a> -->
+                            
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,8 @@
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
+                  
+                    <table class="table align-items-center table-flush data-table" id="table">
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Name</th>
@@ -57,7 +58,7 @@
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                    <a class="dropdown-item" href="">Edit</a>
+                                                    <a class="dropdown-item" href="{{route('product.view',$product->id)}}">View</a>
                                             </div>
                                         </div>
                                     </td>
@@ -65,6 +66,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                   
                 </div>
                 <div class="card-footer py-4">
                     <nav class="d-flex justify-content-end" aria-label="...">
@@ -81,9 +83,12 @@
 
 @push('js')
     <!-- Bootstrap Toggle JS -->
-    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    
     <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.min.js"></script>
     <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.extension.js"></script>
+
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
     <script>
         $(function() {
             $('.toggle-class').bootstrapToggle();
@@ -103,6 +108,25 @@
                     }
                 });
             });
+        });
+
+        var $rows = $('#table tr');
+        $('#search').keyup(function() {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            
+            $rows.show().filter(function() {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+        $('.data-table').DataTable({
+            // Add DataTable options here
+            paging: true,
+            searching: true,
+            ordering: true,
+            "lengthChange": false,
+            "info": false,
         });
     </script>
 @endpush

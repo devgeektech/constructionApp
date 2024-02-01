@@ -22,4 +22,14 @@ return [
     //profile
     'get_profile' => 'Mokanda mosili na profil esalaki likambo mpo ya kobunda.',
     'update_profile' => 'Mise à jour ya profil esalaki likambo mpo ya kobunda.',
+
+    //Sidebar
+    'dashboard' => 'Bokonzi',
+    'banners' => 'Balekisi',
+    'stores' => 'Masengi',
+    'categories' => 'Matundu',
+    'products' => 'Mibeko',
+    'contribution' => 'Kontribisioni',
+    'vendors' => 'Mbokisi',
+    'customers' => 'Bato',
 ];

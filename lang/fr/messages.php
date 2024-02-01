@@ -21,4 +21,15 @@
         //profile
         'get_profile' => 'Profil récupéré avec succès.',
         'update_profile' => 'Profil mis à jour avec succès.',
+
+        //Sidebar
+        'dashboard' => 'Tableau de bord',
+        'banners' => 'Bannières',
+        'stores' => 'Magasins',
+        'categories' => 'Catégories',
+        'products' => 'Produits',
+        'contribution' => 'Contribution',
+        'vendors' => 'Vendeurs',
+        'customers' => 'Clients',
+        
     ];

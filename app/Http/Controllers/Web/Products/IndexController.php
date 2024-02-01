@@ -26,7 +26,18 @@ class IndexController extends Controller
            
         }
     }
-
+    /**
+     * View Product
+     */
+    public function view($id){
+        try {
+            
+            $product = Product::where('id',$id)->first();
+            return view('admin.products.view',compact(['product']));
+        } catch (\Throwable $th) {
+            
+        }
+    }
     /**
      * Change Status
      */

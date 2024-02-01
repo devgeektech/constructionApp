@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('store_id');
+            $table->unsignedBigInteger('status')->nullable()->comment('0=unapproved,1=approved');
             $table->timestamps();
         });
     }

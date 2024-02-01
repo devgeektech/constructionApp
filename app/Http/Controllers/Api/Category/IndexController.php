@@ -21,7 +21,7 @@ class IndexController extends BaseController
         $desiredLanguage = $request->header('Accept-Language');
         app()->setLocale($desiredLanguage);
         try {
-            $get_categories = Category::all();
+            $get_categories = Category::where('status',1)->get();
             $categories = CategoryResource::collection($get_categories);
             if($categories){
                 return $this->sendResponse($categories, trans('messages.retrieve_categories'));

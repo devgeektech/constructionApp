@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('stores', function (Blueprint $table) {
+        Schema::table('categories', function (Blueprint $table) {
             $table->unsignedBigInteger('status')->nullable()->comment('0=unapproved,1=approved');
-            $table->unsignedBigInteger('is_featured')->nullable()->comment('0=not_featured,1=featured');
-            $table->unsignedBigInteger('count')->nullable();
         });
     }
 
@@ -23,10 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('stores', function (Blueprint $table) {
+        Schema::table('categories', function (Blueprint $table) {
             $table->drop('status');
-            $table->drop('is_featured');
-            $table->drop('count');
         });
     }
 };

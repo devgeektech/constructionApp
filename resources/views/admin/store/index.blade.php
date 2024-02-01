@@ -25,7 +25,7 @@
                                         </div>
 
                 <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
+                    <table class="table align-items-center table-flush data-table">
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Name</th>
@@ -34,6 +34,7 @@
                                 <th scope="col">Logo</th>
                                 <th scope="col">Banner</th>
                                 <th scope="col">Phone</th>
+                                <th scope="col">Featured</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -48,6 +49,7 @@
                                     <td><img src="{{ $store->logo ? asset(Storage::url('images/' . $store->logo)) : asset(Storage::url('images/Image_not_available.png')) }}" height="40" width="40"></td>
                                     <td><img src="{{ $store->banner ? asset(Storage::url('images/' . $store->banner)) : asset(Storage::url('images/Image_not_available.png')) }}" height="40" width="40"></td>
                                     <td>{{ $store->phone }}</td>
+                                    <td><input type="checkbox" data-id="{{ $store->id }}" {{ $store->is_featured == 1 ? 'checked' : '' }} class="featured-class" data-toggle="toggle" data-on="Featured" data-off="Not Featured" data-onstyle="success" data-offstyle="danger"></td>
                                     <td><input type="checkbox" data-id="{{ $store->id }}" {{ $store->status == 1 ? 'checked' : '' }} class="toggle-class" data-toggle="toggle" data-on="Active" data-off="Inactive" data-onstyle="success" data-offstyle="danger"></td>
                                     <td>
                                         <div class="dropdown">
@@ -55,7 +57,8 @@
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                    <a class="dropdown-item" href="{{route('store.edit',$store->id)}}">Edit</a>
+                                                    <!-- <a class="dropdown-item" href="{{route('store.edit',$store->id)}}">Edit</a> -->
+                                                    <a class="dropdown-item" href="{{route('store.view',$store->id)}}">View</a>
                                             </div>
                                         </div>
                                     </td>
@@ -82,6 +85,9 @@
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.min.js"></script>
     <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.extension.js"></script>
+
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
     <script>
         $(function() {
             $('.toggle-class').bootstrapToggle();
@@ -101,6 +107,27 @@
                     }
                 });
             });
+        });
+        $('.featured-class').change(function(){
+            var status = $(this).prop('checked') == true ? 1 : 0; 
+            var id = $(this).data('id'); 
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: '/isFeatured', // Your route here
+                data: {'is_featured': status, 'id': id},
+                success: function(data){
+                console.log(data.success)
+                }
+            });
+        });
+        $('.data-table').DataTable({
+            // Add DataTable options here
+            paging: true,
+            searching: true,
+            ordering: true,
+            "lengthChange": false,
+            "info": false,
         });
     </script>
 @endpush

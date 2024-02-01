@@ -56,6 +56,10 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
     {
         return $this->belongsTo(Store::class);
     }
+	public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 	// protected function role_id(): Attribute
     // {
     //     return new Attribute(

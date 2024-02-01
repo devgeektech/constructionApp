@@ -16,7 +16,7 @@ class IndexController extends BaseController
      */
     public function index(){
         try {
-            $banners = Banner::all();
+            $banners = Banner::where('status',1)->get();
             if($banners){
                 return $this->sendResponse($banners, trans('messages.get_banners'));
             }

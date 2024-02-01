@@ -76,37 +76,42 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link {{ request()->is('admin') ? 'active' : '' }}" href="{{ route('home') }}">
-                        <i class="ni ni-tv-2 text-primary "></i> {{ __('Dashboard') }}
+                        <i class="ni ni-tv-2 text-primary "></i> {{ __('messages.dashboard') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ (request()->is('banners')) || (request()->is('banner/*')) ? 'active' : '' }}" href="{{ route('admin.banners') }}">
-                        <i class="ni ni-shop text-primary "></i> {{ __('Banners') }}
+                        <i class="ni ni-shop text-primary "></i> {{ __('messages.banners') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ (request()->is('stores')) || (request()->is('store/*')) ? 'active' : '' }}" href="{{ route('admin.stores') }}">
-                        <i class="ni ni-shop text-primary "></i> {{ __('Stores') }}
+                        <i class="ni ni-shop text-primary "></i> {{ __('messages.stores') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ (request()->is('categories')) || (request()->is('category/*')) ? 'active' : '' }}" href="{{ route('admin.categories') }}">
-                    <i class="ni ni-tag text-primary"></i> {{ __('Categories') }}
+                    <i class="ni ni-tag text-primary"></i> {{ __('messages.categories') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ (request()->is('products')) || (request()->is('product/*')) ? 'active' : '' }}" href="{{ route('admin.products') }}">
-                    <i class="ni ni-box-2 text-primary"></i> {{ __('Products') }}
+                    <i class="ni ni-box-2 text-primary"></i> {{ __('messages.products') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ (request()->is('contributions')) || (request()->is('contribution/*')) ? 'active' : '' }}" href="{{ route('admin.customers') }}">
+                        <i class="ni ni-single-02 text-primary"></i>{{ __('messages.contribution') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ (request()->is('vendors')) || (request()->is('vendor/*')) ? 'active' : '' }}" href="{{ route('admin.vendors') }}">
-                        <i class="ni ni-delivery-fast text-primary"></i> {{ __('Vendors') }}
+                        <i class="ni ni-delivery-fast text-primary"></i> {{ __('messages.vendors') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ (request()->is('customers')) || (request()->is('customer/*')) ? 'active' : '' }}" href="{{ route('admin.customers') }}">
-                        <i class="ni ni-single-02 text-primary"></i>{{ __('Customers') }}
+                        <i class="ni ni-single-02 text-primary"></i>{{ __('messages.customers') }}
                     </a>
                 </li>
             </ul>
