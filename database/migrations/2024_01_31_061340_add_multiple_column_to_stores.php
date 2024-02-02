@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('stores', function (Blueprint $table) {
-            $table->unsignedBigInteger('status')->nullable()->comment('0=unapproved,1=approved');
-            $table->unsignedBigInteger('is_featured')->nullable()->comment('0=not_featured,1=featured');
-            $table->unsignedBigInteger('count')->nullable();
+            $table->unsignedBigInteger('status')->default(0)->comment('0=unapproved,1=approved');
+            $table->unsignedBigInteger('is_featured')->default(0)->comment('0=not_featured,1=featured');
+            $table->unsignedBigInteger('count')->default(0);
         });
     }
 

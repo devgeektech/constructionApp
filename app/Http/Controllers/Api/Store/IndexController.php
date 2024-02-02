@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api\Store;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\BaseController as BaseController;
 use App\Models\Store;
+use App\Models\Product;
 use Validator;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\StoreResource;
+use App\Models\ProductImage;
 use Illuminate\Support\Facades\Storage;
 
 class IndexController extends BaseController
@@ -117,4 +119,28 @@ class IndexController extends BaseController
         }
         
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id): JsonResponse
+    {   
+       
+        $store = Store::find($id);
+        
+        if($store){
+            $products = Product::where('store_id',$id)->get();
+            foreach ( $products as $product) {
+                ProductImage::where('product_id',$product->id)->delete();
+            }
+            Product::where('store_id',$id)->get();
+
+            $store->delete();
+        }
+        return $this->sendResponse([], trans('messages.product_delete'));
+    }
+
 }

@@ -65,10 +65,16 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     
     //Products
     Route::get('products', [App\Http\Controllers\Web\Products\IndexController::class, 'index'])->name('admin.products');
-
     Route::get('product/view/{id}', [App\Http\Controllers\Web\Products\IndexController::class, 'view'])->name('product.view');
     Route::get('/changeProductStatus', [App\Http\Controllers\Web\Products\IndexController::class, 'change_product_status']);
+    Route::get('search', [App\Http\Controllers\Web\Products\IndexController::class, 'search'])->name('admin.products.search');
 
+    //Contributions
+    Route::get('contributions', [App\Http\Controllers\Web\Contributions\IndexController::class, 'index'])->name('admin.contributions');
+    Route::get('contribution/view/{id}', [App\Http\Controllers\Web\Contributions\IndexController::class, 'view'])->name('contribution.view');
+    Route::get('contribution-search', [App\Http\Controllers\Web\Contributions\IndexController::class, 'search'])->name('admin.contributions-search');
+    
+    Route::get('/changeContributionStatus', [App\Http\Controllers\Web\Contributions\IndexController::class, 'change_contribution_status']);
     //Categories
     Route::get('categories', [App\Http\Controllers\Web\Categories\IndexController::class, 'index'])->name('admin.categories');
     Route::get('category', [App\Http\Controllers\Web\Categories\IndexController::class, 'create'])->name('admin.category.add');

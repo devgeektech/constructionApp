@@ -13,52 +13,61 @@
                 <div class="card-header border-0">
                     <div class="row align-items-center">
                         <div class="col-8">
-                            <h3 class="mb-0">Stores</h3>
+                            <h3 class="mb-0">Contributions</h3>
                         </div>
                         <div class="col-4 text-right">
-                            <!-- <a href="" class="btn btn-sm btn-primary">Add user</a> -->
+                            
                         </div>
                     </div>
                 </div>
                 
-                <div class="col-12">
-                                        </div>
+                <div class="col-4">
+                    <div align="left">
+                       
+                        <form action="{{route('admin.contributions-search')}}" method="get" role="search">
+                          
+                            <input type="text" placeholder="Search.." id="search_contributions" name="search" class="form-control" value="{{ Request::get('search') }}" onkeyup="myFunction()">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-search fa-sm"></i></button>
+                        </form>
+                           
+                    </div>
+                </div>
 
                 <div class="table-responsive">
-                    <table class="table align-items-center table-flush data-table">
+                  
+                    <table class="table align-items-center table-flush data-table4" id="table">
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Name</th>
-                                <th scope="col">Owner</th>
-                                <th scope="col">Address</th>
-                                <th scope="col">Logo</th>
-                                <th scope="col">Banner</th>
-                                <th scope="col">Phone</th>
-                                <th scope="col">Featured</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Store</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Availability</th>
+                                <th scope="col">Stock</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                        
-                            @foreach($getStores as $store)
+                            
+                            @foreach($contributions as $contribution)
                                 <tr>
-                                    <td>{{ $store->name }}</td>
-                                    <td>{{ $store->owner }}</td>
-                                    <td>{{ $store->address }}</td>
-                                    <td><img src="{{ $store->logo ? asset(Storage::url('images/' . $store->logo)) : asset(Storage::url('images/Image_not_available.png')) }}" height="40" width="40"></td>
-                                    <td><img src="{{ $store->banner ? asset(Storage::url('images/' . $store->banner)) : asset(Storage::url('images/Image_not_available.png')) }}" height="40" width="40"></td>
-                                    <td>{{ $store->phone }}</td>
-                                    <td><input type="checkbox" data-id="{{ $store->id }}" {{ $store->is_featured == 1 ? 'checked' : '' }} class="featured-class" data-toggle="toggle" data-on="Featured" data-off="Not Featured" data-onstyle="success" data-offstyle="danger"></td>
-                                    <td><input type="checkbox" data-id="{{ $store->id }}" {{ $store->status == 1 ? 'checked' : '' }} class="toggle-class" data-toggle="toggle" data-on="Active" data-off="Inactive" data-onstyle="success" data-offstyle="danger"></td>
+                                    <td>{{ $contribution->name }}</td>
+                                    <td>{{ $contribution->price }}</td>
+                                    <td><img src="{{ $contribution->image ? asset(Storage::url('images/' . $contribution->image)) : asset(Storage::url('images/Image_not_available.png')) }}" height="40" width="40"></td>
+                                    <td>{{ $contribution->store->name }}</td>
+                                    <td>{{ $contribution->category->name }}</td>
+                                    <td>{{ $contribution->availability }}</td>
+                                    <td>{{ $contribution->stock }}</td>
+                                    <td><input type="checkbox" data-id="{{ $contribution->id }}" {{ $contribution->status == 1 ? 'checked' : '' }} class="toggle-class" data-toggle="toggle" data-on="Active" data-off="Inactive" data-onstyle="success" data-offstyle="danger"></td>
                                     <td>
                                         <div class="dropdown">
                                             <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                    <!-- <a class="dropdown-item" href="{{route('store.edit',$store->id)}}">Edit</a> -->
-                                                    <a class="dropdown-item" href="{{route('store.view',$store->id)}}">View</a>
+                                                    <a class="dropdown-item" href="{{route('contribution.view',$contribution->id)}}">View</a>
                                             </div>
                                         </div>
                                     </td>
@@ -66,6 +75,8 @@
                             @endforeach
                         </tbody>
                     </table>
+                   
+                    {{ $contributions->appends(request()->input())->links() }}
                 </div>
                 <div class="card-footer py-4">
                     <nav class="d-flex justify-content-end" aria-label="...">
@@ -89,9 +100,7 @@
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
     <script>
-        $(function() {
-            $('.toggle-class').bootstrapToggle();
-        });
+       
         $(function() {
             $('.toggle-class').change(function() {
                 var status = $(this).prop('checked') == true ? 0 : 1; 
@@ -100,7 +109,7 @@
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: '/changeStatus', // Your route here
+                    url: '/changeContributionStatus', // Your route here
                     data: {'status': status, 'id': id},
                     success: function(data){
                     console.log(data.success)
@@ -108,26 +117,14 @@
                 });
             });
         });
-        $('.featured-class').change(function(){
-            var status = $(this).prop('checked') == true ? 0 : 1; 
-            var id = $(this).data('id'); 
-            $.ajax({
-                type: "GET",
-                dataType: "json",
-                url: '/isFeatured', // Your route here
-                data: {'is_featured': status, 'id': id},
-                success: function(data){
-                console.log(data.success)
-                }
-            });
-        });
-        $('.data-table').DataTable({
-            // Add DataTable options here
-            paging: true,
-            searching: true,
-            ordering: true,
-            "lengthChange": false,
-            "info": false,
-        });
+
+      
+
+        function myFunction() {
+            var searchText = $('#search_contributions').val();
+            if (!searchText) {
+                window.location.href = "{{ route('admin.contributions') }}";
+            }
+        }
     </script>
 @endpush

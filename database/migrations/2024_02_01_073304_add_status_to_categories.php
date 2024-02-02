@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->unsignedBigInteger('status')->nullable()->comment('0=unapproved,1=approved');
+            $table->unsignedBigInteger('status')->default(0)->comment('0=unapproved,1=approved');
         });
     }
 

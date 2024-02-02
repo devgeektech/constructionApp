@@ -18,11 +18,11 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->string('image');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->unsignedBigInteger('store_id');
-            $table->foreign('store_id')->references('id')->on('stores');
+            $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
             $table->json('availability')->nullable();
             $table->json('stock');
             $table->timestamps();

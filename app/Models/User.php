@@ -60,6 +60,10 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
     {
         return $this->belongsTo(Product::class);
     }
+	public function products()
+    {
+        return $this->hasMany(Product::class,'user_id','id');
+    }
 	// protected function role_id(): Attribute
     // {
     //     return new Attribute(

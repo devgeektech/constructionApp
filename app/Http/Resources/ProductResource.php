@@ -28,6 +28,7 @@ class ProductResource extends JsonResource
             'store_id' => getStoreName($this->store_id)->name,
             'availability' => $this->availability,
             'stock' => $this->stock,
+            'is_contribution' => $this->is_contribution,
             'total_ratings' => $product_rating,
             'avg_ratings' => $averageRating,
         ];

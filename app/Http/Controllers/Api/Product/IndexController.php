@@ -9,6 +9,8 @@ use App\Models\ProductRatings;
 use App\Models\Store;
 use Validator;
 use DB;
+use Mail; 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\JsonResponse;
 use App\Models\ProductImage;
@@ -16,6 +18,12 @@ use App\Http\Resources\StoreResource;
 use Illuminate\Support\Facades\Storage;
 class IndexController extends BaseController
 {
+
+    protected $user;
+   
+    function __construct() {
+        $this->user = auth('sanctum')->user() ? auth('sanctum')->user()->id:null;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +34,7 @@ class IndexController extends BaseController
         try {
             $desiredLanguage = $request->header('Accept-Language');
             app()->setLocale($desiredLanguage);
-            $get_products = Product::where('status',1)->get();
+            $get_products = Product::where('status',1)->where('is_contribution',0)->get();
             $products = ProductResource::collection($get_products);
             if($products){
                 return $this->sendResponse($products, trans('messages.product_retrieve'));
@@ -47,6 +55,7 @@ class IndexController extends BaseController
     public function store(Request $request): JsonResponse
     {
         try {
+
             $input = $request->all();
    
             $validator = Validator::make($input, [
@@ -54,7 +63,6 @@ class IndexController extends BaseController
                 'description'=> 'required',
                 'price'=> 'required',
                 'image'=> 'required',
-                'user_id'=> 'required',
                 'category_id'=> 'required',
                 'store_id'=> 'required',
                 'availability'=> 'required',
@@ -75,7 +83,7 @@ class IndexController extends BaseController
                 }
             }
         
-            
+           
             if (!empty($images)) {
                 $firstImage = $images[0]['name'];
             }
@@ -90,7 +98,7 @@ class IndexController extends BaseController
             
             $product->price = $request->price;
             $product->image = $firstImage ;
-            $product->user_id = $request->user_id;
+            $product->user_id = $this->user;
             $product->category_id = $request->category_id;
             $product->store_id = $request->store_id;
             $product->setTranslation('availability', 'en', 'Available');
@@ -98,18 +106,25 @@ class IndexController extends BaseController
             $product->setTranslation('availability', 'ln', 'Elongi');
             $product->stock = $request->stock;
             $product->status = 0;
+            $product->is_contribution = $request->is_contribution;
             $product->save();
 
             foreach ($images as $key => $image) {
 
                 $data = [
-                    'user_id' => $request->user_id,
+                    'user_id' => $this->user,
                     'product_id' => $product->id,
                     'name' => $image['name']
                 ];
                 ProductImage::create($data);
             }
             if($product){
+
+                Mail::send('email.newProduct', ['product' => $product], function($message) use($product){
+                    $message->to('harvinder@geekinformatic.com');
+                    $message->subject('New Product Notification');
+                });
+
                 return $this->sendResponse(new ProductResource($product), trans('messages.product_create'));
             }
             return $this->sendResponse('Product not saved', trans('messages.product_not_create'));
@@ -170,10 +185,23 @@ class IndexController extends BaseController
             if($validator->fails()){
                 return $this->sendError('Validation Error.', $validator->errors());       
             }
-            
+
+            $images = [];
+            if ($request->image){
+                foreach($request->image as $key => $img)
+                {
+                    $imageName = time() . rand(1, 99) . '.' . $img->extension();
+                    $img->storeAs('public/images', $imageName);
+                    $images[] = ['name' => $imageName];
+                }
+            }
+        
+           
+            if (!empty($images)) {
+                $firstImage = $images[0]['name'];
+            }
             $product = Product::findOrFail($id);
 
-            // Update translations for 'name' attribute
             $product->setTranslation('name', 'en', 'Product Name in English');
             $product->setTranslation('name', 'fr', 'Nom du produit en français');
             $product->setTranslation('name', 'ln', 'Nom du produit en lingala');
@@ -181,12 +209,30 @@ class IndexController extends BaseController
             $product->setTranslation('description', 'en', 'Product Description in English');
             $product->setTranslation('description', 'fr', 'Description du produit en français');
             $product->setTranslation('description', 'ln', 'Description du produit en lingala');
-
-            // Update non-translatable attributes
-            $product->price = $request->input('price');
+            
+            $product->price = $request->price;
+            $product->image = $firstImage ;
+            $product->user_id = $this->user;
+            $product->category_id = $request->category_id;
+            $product->store_id = $request->store_id;
+            $product->setTranslation('availability', 'en', 'Available');
+            $product->setTranslation('availability', 'fr', 'Disponible');
+            $product->setTranslation('availability', 'ln', 'Elongi');
+            $product->stock = $request->stock;
+            $product->status = 0;
+            $product->is_contribution = $request->is_contribution;
 
             $product->save();
-    
+            
+            foreach ($images as $key => $image) {
+
+                $data = [
+                    'user_id' => $this->user,
+                    'product_id' => $product->id,
+                    'name' => $image['name']
+                ];
+                ProductImage::create($data);
+            }
             return $this->sendResponse(new ProductResource($product), trans('messages.product_update'));
         } catch (\Throwable $th) {
             return $this->sendError('Something went wrong', $th->getMessage());   
@@ -247,5 +293,19 @@ class IndexController extends BaseController
        } catch (\Throwable $th) {
             return $this->sendError('Something went wrong', $th->getMessage());   
        }
+    }
+
+    public function products_by_category($id){
+        try {
+
+            $product = Product::where('category_id',$id)->get();
+            if (is_null($product)) {
+                return $this->sendError('Product not found.');
+            }
+            return $this->sendResponse(new ProductResource($product), trans('messages.product_retrieve'));
+        } catch (\Throwable $th) {
+            return $this->sendError('Something went wrong', $th->getMessage());   
+        }
+        
     }
 }

@@ -100,7 +100,7 @@
         });
         $(function() {
             $('.toggle-class').change(function() {
-                var status = $(this).prop('checked') == true ? 1 : 0; 
+                var status = $(this).prop('checked') == true ? 0 : 1; 
                 var id = $(this).data('id'); 
                 var route = "";
                 $.ajax({

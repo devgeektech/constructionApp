@@ -21,12 +21,22 @@
                     </div>
                 </div>
                 
-                <div class="col-12">
+                <div class="col-4">
+                    <div align="left">
+                       
+                        <form action="{{ route('admin.products.search') }}" method="get" role="search">
+                            <div style="display: flex;"> 
+                            <input type="text" placeholder="Search.." id="search_products" name="search" class="form-control" value="{{ Request::get('search') }}" onkeyup="myFunction()">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-search fa-sm"></i></button>
+                            </div>
+                        </form>
+                           
+                    </div>
                 </div>
 
                 <div class="table-responsive">
                   
-                    <table class="table align-items-center table-flush data-table" id="table">
+                    <table class="table align-items-center table-flush data-table4" id="table">
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Name</th>
@@ -66,7 +76,8 @@
                             @endforeach
                         </tbody>
                     </table>
-                   
+                    <!-- {{ $getProducts->links() }} -->
+                    {{ $getProducts->appends(request()->input())->links() }}
                 </div>
                 <div class="card-footer py-4">
                     <nav class="d-flex justify-content-end" aria-label="...">
@@ -83,19 +94,17 @@
 
 @push('js')
     <!-- Bootstrap Toggle JS -->
-    
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.min.js"></script>
     <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.extension.js"></script>
 
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
     <script>
-        $(function() {
-            $('.toggle-class').bootstrapToggle();
-        });
+       
         $(function() {
             $('.toggle-class').change(function() {
-                var status = $(this).prop('checked') == true ? 1 : 0; 
+                var status = $(this).prop('checked') == true ? 0 : 1; 
                 var id = $(this).data('id'); 
                 var route = "";
                 $.ajax({
@@ -110,23 +119,13 @@
             });
         });
 
-        var $rows = $('#table tr');
-        $('#search').keyup(function() {
-            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-            
-            $rows.show().filter(function() {
-                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-                return !~text.indexOf(val);
-            }).hide();
-        });
+      
 
-        $('.data-table').DataTable({
-            // Add DataTable options here
-            paging: true,
-            searching: true,
-            ordering: true,
-            "lengthChange": false,
-            "info": false,
-        });
+        function myFunction() {
+            var searchText = $('#search_products').val();
+            if (!searchText) {
+                window.location.href = "{{ route('admin.products') }}";
+            }
+        }
     </script>
 @endpush

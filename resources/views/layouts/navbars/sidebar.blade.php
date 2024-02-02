@@ -100,7 +100,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ (request()->is('contributions')) || (request()->is('contribution/*')) ? 'active' : '' }}" href="{{ route('admin.customers') }}">
+                    <a class="nav-link {{ (request()->is('contributions')) || (request()->is('contribution/*')) ? 'active' : '' }}" href="{{ route('admin.contributions') }}">
                         <i class="ni ni-single-02 text-primary"></i>{{ __('messages.contribution') }}
                     </a>
                 </li>
