@@ -44,6 +44,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            {{ $getProducts->appends(request()->input())->links() }}
                         </div>
                         </div>
                     </div>
@@ -83,6 +84,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                {{ $getStores->appends(request()->input())->links() }}
                             </div>
                         </div>
                     </div>

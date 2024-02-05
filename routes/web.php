@@ -44,6 +44,14 @@ Route::get('lang/change', [LangController::class, 'change'])->name('changeLang')
 /*All Admin Routes List*/
 
 Route::middleware(['auth', 'user-access:1'])->group(function () { 
+
+    //Profile
+    Route::get('profile',[AuthController::class, 'edit_profile'])->name('profile.edit');
+    Route::put('profile-update',[AuthController::class, 'update_profile'])->name('profile.update');
+    Route::put('profile-password',[AuthController::class, 'update_password'])->name('profile.password');
+    Route::post('/update-image', [AuthController::class, 'update_image'])->name('update.image');
+    
+    //Home
     Route::get('admin', [HomeController::class, 'index'])->name('home');
 
     //Banners
@@ -54,6 +62,7 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::post('banner/update/{id}', [App\Http\Controllers\Web\Banners\IndexController::class, 'update'])->name('admin.banner.update');
     Route::get('/changeBannerStatus', [App\Http\Controllers\Web\Banners\IndexController::class, 'changeBannerStatus']);
     
+    Route::get('banners-search', [App\Http\Controllers\Web\Banners\IndexController::class, 'search'])->name('admin.banners-search');
 
     //Stores
     Route::get('stores', [IndexController::class, 'index'])->name('admin.stores');
@@ -62,7 +71,8 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::post('store/update/{id}', [IndexController::class, 'update'])->name('store.update');
     Route::get('/changeStatus', [IndexController::class, 'changeStatus']);
     Route::get('/isFeatured', [IndexController::class, 'isFeatured']);
-    
+    Route::get('stores-search', [App\Http\Controllers\Web\Stores\IndexController::class, 'search'])->name('admin.stores-search');
+
     //Products
     Route::get('products', [App\Http\Controllers\Web\Products\IndexController::class, 'index'])->name('admin.products');
     Route::get('product/view/{id}', [App\Http\Controllers\Web\Products\IndexController::class, 'view'])->name('product.view');
@@ -83,6 +93,7 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::post('category/update/{id}', [App\Http\Controllers\Web\Categories\IndexController::class, 'update'])->name('admin.category.update');
     Route::delete('/category/{id}', [App\Http\Controllers\Web\Categories\IndexController::class, 'destroy'])->name('admin.category.destroy');
     Route::get('/changeCategoryStatus', [App\Http\Controllers\Web\Categories\IndexController::class, 'changeCategoryStatus']);
+    Route::get('categories-search', [App\Http\Controllers\Web\Categories\IndexController::class, 'search'])->name('admin.categories-search');
 
     //Customers
     Route::get('customers', [App\Http\Controllers\Web\Customers\IndexController::class, 'index'])->name('admin.customers');

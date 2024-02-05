@@ -32,6 +32,10 @@
         <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
        
         <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
+
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+
     </head>
     <body class="{{ $class ?? '' }}">
         @auth()
@@ -58,5 +62,23 @@
        
         <!-- Argon JS -->
         <script src="{{ asset('argon') }}/js/argon.js?v=1.0.0"></script>
+        <!-- Before closing body tag -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script>
+            @if(Session::has('toastr'))
+                @php
+                    $toastr = Session::get('toastr');
+                @endphp
+
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true,
+                    "timeOut": "6000",
+                }
+
+                toastr.{{ $toastr['type'] }}('{{ $toastr['message'] }}', '{{ $toastr['title'] }}');
+            @endif
+    </script>
     </body>
 </html>

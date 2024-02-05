@@ -88,22 +88,22 @@ class IndexController extends BaseController
                 $firstImage = $images[0]['name'];
             }
             $product = new Product();
-            $product->setTranslation('name', 'en', 'Product Name in English');
-            $product->setTranslation('name', 'fr', 'Nom du produit en français');
-            $product->setTranslation('name', 'ln', 'Nom du produit en lingala');
+            $product->setTranslation('name', 'en', $request->name);
+            $product->setTranslation('name', 'fr', $request->name);
+            $product->setTranslation('name', 'ln', $request->name);
             
-            $product->setTranslation('description', 'en', 'Product Description in English');
-            $product->setTranslation('description', 'fr', 'Description du produit en français');
-            $product->setTranslation('description', 'ln', 'Description du produit en lingala');
+            $product->setTranslation('description', 'en', $request->description);
+            $product->setTranslation('description', 'fr', $request->description);
+            $product->setTranslation('description', 'ln', $request->description);
             
             $product->price = $request->price;
             $product->image = $firstImage ;
             $product->user_id = $this->user;
             $product->category_id = $request->category_id;
             $product->store_id = $request->store_id;
-            $product->setTranslation('availability', 'en', 'Available');
-            $product->setTranslation('availability', 'fr', 'Disponible');
-            $product->setTranslation('availability', 'ln', 'Elongi');
+            $product->setTranslation('availability', 'en', $request->availability);
+            $product->setTranslation('availability', 'fr', $request->availability);
+            $product->setTranslation('availability', 'ln', $request->availability);
             $product->stock = $request->stock;
             $product->status = 0;
             $product->is_contribution = $request->is_contribution;
@@ -202,22 +202,22 @@ class IndexController extends BaseController
             }
             $product = Product::findOrFail($id);
 
-            $product->setTranslation('name', 'en', 'Product Name in English');
-            $product->setTranslation('name', 'fr', 'Nom du produit en français');
-            $product->setTranslation('name', 'ln', 'Nom du produit en lingala');
+            $product->setTranslation('name', 'en', $request->name);
+            $product->setTranslation('name', 'fr', $request->name);
+            $product->setTranslation('name', 'ln', $request->name);
             
-            $product->setTranslation('description', 'en', 'Product Description in English');
-            $product->setTranslation('description', 'fr', 'Description du produit en français');
-            $product->setTranslation('description', 'ln', 'Description du produit en lingala');
+            $product->setTranslation('description', 'en', $request->description);
+            $product->setTranslation('description', 'fr', $request->description);
+            $product->setTranslation('description', 'ln', $request->description);
             
             $product->price = $request->price;
             $product->image = $firstImage ;
             $product->user_id = $this->user;
             $product->category_id = $request->category_id;
             $product->store_id = $request->store_id;
-            $product->setTranslation('availability', 'en', 'Available');
-            $product->setTranslation('availability', 'fr', 'Disponible');
-            $product->setTranslation('availability', 'ln', 'Elongi');
+            $product->setTranslation('availability', 'en', $request->availability);
+            $product->setTranslation('availability', 'fr', $request->availability);
+            $product->setTranslation('availability', 'ln', $request->availability);
             $product->stock = $request->stock;
             $product->status = 0;
             $product->is_contribution = $request->is_contribution;
@@ -240,16 +240,23 @@ class IndexController extends BaseController
         
     }
    
-    /**
+   /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product): JsonResponse
-    {
-        $product->delete();
-        return $this->sendResponse([], trans('messages.product_delete'));
+    public function destroy($id): JsonResponse
+    {   
+       
+        $product = Product::find($id);
+        
+        if($product){
+            ProductImage::where('product_id',$product->id)->delete();
+            $product->delete();
+            return $this->sendResponse(new ProductResource($product), trans('messages.product_delete'));
+        }
+        return $this->sendError([], 'Product Not Found!');   
     }
 
     /**

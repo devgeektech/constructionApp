@@ -19595,13 +19595,14 @@ textarea[resize='horizontal']
         display: block;
 
         padding-top: 1rem;
-        padding-bottom: 1rem; 
-
+        padding-bottom: 0px; 
+        background-color: #000;
         text-align: center;
     }
     .navbar-vertical.navbar-expand-md .navbar-brand-img
     {
-        max-height: 2.5rem;
+        max-height: 160px;
+        max-width: 100px;
     }
     .navbar-vertical.navbar-expand-md .navbar-user
     {

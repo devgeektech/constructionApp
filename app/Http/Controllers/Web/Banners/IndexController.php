@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Banner;
 use App\Models\Store;
-
+use Toastr;
 class IndexController extends Controller
 {
    /**
@@ -17,7 +17,8 @@ class IndexController extends Controller
 
      public function index(){
         try {
-            $banners = Banner::all();
+
+            $banners = Banner::paginate(10);
             return view('admin.banners.index',compact(['banners']));
             
         } catch (\Throwable $th) {
@@ -29,7 +30,7 @@ class IndexController extends Controller
      */
     public function create(){
         try {
-            $stores = Store::all();
+            $stores = Store::paginate(10);
             return view('admin.banners.create',compact(['stores']));
         } catch (\Throwable $th) {
         }
@@ -56,8 +57,8 @@ class IndexController extends Controller
             $banner->status = 0;
             $banner->save();
             if($banner){
-                $banners = Banner::all();
-                return view('admin.banners.index',compact(['banners']));
+                $banners = Banner::paginate(10);
+                return redirect()->route('admin.banners')->with('success', 'Banner Created Successfully');
             }
             
         } catch (\Throwable $th) {
@@ -100,8 +101,7 @@ class IndexController extends Controller
             $banner->name = $bannerImage;
             $banner->store_id = $request->store;
             $banner->save();
-            
-            return redirect()->route('admin.banners');
+            return redirect()->route('admin.banners')->with('success', 'Banner Updated Successfully');
         } catch (\Throwable $th) {
            
         }
@@ -125,4 +125,22 @@ class IndexController extends Controller
         }
        
     }
+
+    /**
+     * Search Banners
+     */
+
+     public function search(Request $request){
+        $search = $request->get('search');
+        if($search != ''){
+           $stores = Store::where("name", 'like', '%' . $search . '%')->first();
+           if($stores){
+               $banners = Banner::where('store_id',$stores->id)->paginate(10);
+           }
+           if(count($banners )>0){
+               return view('admin.banners.index',['banners'=>$banners]);
+           }
+           return back()->with('error','No results Found');
+        }
+     }
 }

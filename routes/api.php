@@ -33,7 +33,7 @@ Route::middleware('auth.sanctum')->group( function () {
     Route::resource('products', 'App\Http\Controllers\Api\Product\IndexController');
     Route::post('search-products', [App\Http\Controllers\Api\Product\IndexController::class,'search_and_filter_products']);
     Route::get('products/category/{id}', [App\Http\Controllers\Api\Product\IndexController::class,'products_by_category']);
-
+    Route::delete('product/{id}', [App\Http\Controllers\Api\Product\IndexController::class,'destroy']);
 
     /**
      * Contributions Routes
@@ -41,6 +41,8 @@ Route::middleware('auth.sanctum')->group( function () {
     Route::get('contributions', [App\Http\Controllers\Api\Contributions\IndexController::class,'index']);
     Route::get('contribution/{id}', [App\Http\Controllers\Api\Contributions\IndexController::class,'show']);
     Route::post('contribution', [App\Http\Controllers\Api\Contributions\IndexController::class,'store']);
+    Route::post('contribution/{id}', [App\Http\Controllers\Api\Contributions\IndexController::class,'update']);
+    Route::delete('contribution/{id}', [App\Http\Controllers\Api\Contributions\IndexController::class,'destroy']);
     /**
      * Categories Routes
      */
@@ -52,6 +54,7 @@ Route::middleware('auth.sanctum')->group( function () {
     Route::post('store', [App\Http\Controllers\Api\Store\IndexController::class,'store']);
     Route::get('store', [App\Http\Controllers\Api\Store\IndexController::class,'index']);
     Route::get('store/{id}', [App\Http\Controllers\Api\Store\IndexController::class,'show']);
+    Route::post('store/{id}', [App\Http\Controllers\Api\Store\IndexController::class,'update']);
     Route::delete('store/{id}', [App\Http\Controllers\Api\Store\IndexController::class,'destroy']);
 
     /**

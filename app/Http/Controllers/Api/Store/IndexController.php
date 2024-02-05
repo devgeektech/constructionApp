@@ -121,6 +121,65 @@ class IndexController extends BaseController
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id): JsonResponse
+    {
+        try {
+            $input = $request->all();
+   
+            $validator = Validator::make($input, [
+                'user_id' => 'required',
+                'name' => 'required',
+                'owner' => 'required',
+                'address' => 'required',
+                'latitude' => 'required',
+                'longitude' => 'required',
+                'logo' => 'required',
+                'banner' => 'required',
+                'phone' => 'required'
+            ]);
+    
+            if($validator->fails()){
+                return $this->sendError('Validation Error.', $validator->errors());       
+            }
+            if ($request->hasFile('logo')) {
+                $logoName = time().'.'.$request->logo->extension();  
+                $request->logo->storeAs('public/images', $logoName);
+            }
+            if ($request->hasFile('banner')) {
+                $bannerName = time().'.'.$request->banner->extension();  
+                $request->banner->storeAs('public/images', $bannerName);
+            }
+            $store = Store::find($id);
+          
+            $store->user_id = $request->user_id;
+            $store->name = $request->name;
+            $store->owner = $request->owner;
+            $store->address = $request->address;
+            $store->latitude = $request->latitude;
+            $store->longitude = $request->longitude;
+            $store->logo = $logoName;
+            $store->banner = $bannerName;
+            $store->phone = $request->phone;
+            $store->social_links = $request->social_links;
+            $store->status = 0;
+            $store->is_featured = 0;
+            $store->count = 0;
+            $store->save();
+        
+    
+            return $this->sendResponse(new StoreResource($store), trans('messages.update_store'));
+        } catch (\Throwable $th) {
+            return $this->sendError('Something went wrong', $th->getMessage());     
+        }
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -140,7 +199,7 @@ class IndexController extends BaseController
 
             $store->delete();
         }
-        return $this->sendResponse([], trans('messages.product_delete'));
+        return $this->sendResponse([], trans('messages.store_delete'));
     }
 
 }

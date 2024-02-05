@@ -3,6 +3,7 @@
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
     <div class="container-fluid">
         <div class="header-body">
+       
         </div>
     </div>
 </div>
@@ -12,17 +13,36 @@
             <div class="card shadow">
                 <div class="card-header border-0">
                     <div class="row align-items-center">
-                        <div class="col-8">
+                        <div class="col-3">
                             <h3 class="mb-0">Banners</h3>
                         </div>
-                        <div class="col-4 text-right">
+
+
+                        <div class="col-6">
+                      <div align="left" class="search-form">
+                       
+                       <form action="{{route('admin.banners-search')}}" method="get" role="search">
+                         
+                           <input type="text" placeholder="Search.." id="search_banners" name="search" class="form-control" value="{{ Request::get('search') }}" onkeyup="myFunction()">
+                           <button type="submit" class="btn btn-primary"><i class="fa fa-search fa-sm"></i></button>
+                       </form>
+                          
+                   </div>
+                </div>
+
+
+
+
+
+
+                        <div class="col-3 text-right">
                             <a href="{{ route('admin.banner.add')}}" class="btn btn-sm btn-primary">Add Banner</a>
                         </div>
+                        
                     </div>
                 </div>
                 
-                <div class="col-12">
-                </div>
+                
 
                 <div class="table-responsive">
                     <table class="table align-items-center table-flush">
@@ -55,6 +75,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $banners->appends(request()->input())->links() }}
                 </div>
                 <div class="card-footer py-4">
                     <nav class="d-flex justify-content-end" aria-label="...">
@@ -80,7 +101,7 @@
         });
         $(function() {
             $('.toggle-class').change(function() {
-                var status = $(this).prop('checked') == true ? 1 : 0; 
+                var status = $(this).prop('checked') == true ? 0 : 1; 
                 var id = $(this).data('id'); 
                 var route = "";
                 $.ajax({
@@ -94,5 +115,13 @@
                 });
             });
         });
+
+        function myFunction() {
+            var searchText = $('#search_banners').val();
+            if (!searchText) {
+                window.location.href = "{{ route('admin.banners') }}";
+            }
+        }
     </script>
+
 @endpush

@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\DB;
+use Toastr;
 class IndexController extends Controller
 {
    /**
@@ -17,7 +18,7 @@ class IndexController extends Controller
 
      public function index(){
         try {
-            $categories = Category::get();
+            $categories = Category::paginate(10);
             return view('admin.categories.index',compact(['categories']));
             
         } catch (\Throwable $th) {
@@ -74,8 +75,8 @@ class IndexController extends Controller
             $category->setTranslation('description', 'ln', $request->lingala_description);
             $category->status = 0;
             $category->save();
-            
-            return redirect()->route('admin.categories');
+
+            return redirect()->route('admin.categories')->with('success', 'Category Created Successfully');
         } catch (\Throwable $th) {
            
         }
@@ -125,8 +126,7 @@ class IndexController extends Controller
             $category->setTranslation('description', 'ln', $request->lingala_description);
            
             $category->save();
-            
-            return redirect()->route('admin.categories');
+            return redirect()->route('admin.categories')->with('success', 'Category Updated Successfully');
         } catch (\Throwable $th) {
             return view('admin.categories.edit', compact('category'));
         }
@@ -167,4 +167,20 @@ class IndexController extends Controller
         }
        
     }
+    /**
+     * Search Categories
+     */
+
+     public function search(Request $request){
+        $search = $request->get('search');
+        if($search != ''){
+           $categories = Category::where(DB::raw("JSON_EXTRACT(name, '$.en')"), 'like', '%' . $search . '%')
+           ->orWhere(DB::raw("JSON_EXTRACT(name, '$.fr')"), 'like', '%' . $search . '%')
+           ->orWhere(DB::raw("JSON_EXTRACT(name, '$.ln')"), 'like', '%' . $search . '%')->paginate(10);
+           if($categories){
+               return view('admin.categories.index',['categories'=>$categories]);
+           }
+           return back()->with('error','No results Found');
+        }
+     }
 }

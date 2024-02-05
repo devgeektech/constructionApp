@@ -19,7 +19,7 @@ class IndexController extends Controller
 
     public function index(){
         try {
-            $getStores = Store::all();
+            $getStores = Store::paginate(10);
             return view('admin.store.index',compact(['getStores']));
             
         } catch (\Throwable $th) {
@@ -89,7 +89,7 @@ class IndexController extends Controller
             $store->phone = $request->phone;
             $store->save();
            
-            return redirect()->route('admin.stores');
+            return redirect()->route('admin.stores')->with('success', 'Store Updated Successfully');
         } catch (\Throwable $th) {
             return view('admin.store.edit',compact('store'));
         }
@@ -135,4 +135,19 @@ class IndexController extends Controller
         }
        
     }
+
+    /**
+     * Search Stores
+     */
+
+     public function search(Request $request){
+        $search = $request->get('search');
+        if($search != ''){
+           $stores = Store::where("name", 'like', '%' . $search . '%')->paginate(10);
+           if($stores){
+               return view('admin.store.index',['getStores'=>$stores]);
+           }
+           return back()->with('error','No results Found');
+        }
+     }
 }

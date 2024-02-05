@@ -21,11 +21,20 @@
                     </div>
                 </div>
                 
-                <div class="col-12">
+                <div class="col-4">
+                <div align="left">
+                       
+                       <form action="{{route('admin.categories-search')}}" method="get" role="search">
+                         
+                           <input type="text" placeholder="Search.." id="search_categories" name="search" class="form-control" value="{{ Request::get('search') }}" onkeyup="myFunction()">
+                           <button type="submit" class="btn btn-primary"><i class="fa fa-search fa-sm"></i></button>
+                       </form>
+                          
+                   </div>
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table align-items-center table-flush data-table">
+                    <table class="table align-items-center table-flush data-tabled">
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Name</th>
@@ -63,6 +72,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $categories->appends(request()->input())->links() }}
                 </div>
                 <div class="card-footer py-4">
                     <nav class="d-flex justify-content-end" aria-label="...">
@@ -114,5 +124,12 @@
                 });
             });
         });
+
+        function myFunction() {
+            var searchText = $('#search_categories').val();
+            if (!searchText) {
+                window.location.href = "{{ route('admin.categories') }}";
+            }
+        }
     </script>
 @endpush
