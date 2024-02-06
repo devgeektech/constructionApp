@@ -6,6 +6,7 @@
         </div>
     </div>
 </div>
+
 <div class="container-fluid mt--7">
     <div class="row">
         <div class="col">
@@ -66,7 +67,7 @@
         </div>
     </div>
 
-    @include('layouts.footers.auth')
+    
     </div>
 @endsection
 

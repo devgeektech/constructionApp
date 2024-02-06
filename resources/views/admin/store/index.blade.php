@@ -7,7 +7,7 @@
     </div>
 </div>
 <div class="container-fluid mt--7">
-    <div class="row">
+    <div class="row store-section">
         <div class="col">
             <div class="card shadow">
                 <div class="card-header border-0">
@@ -15,14 +15,8 @@
                         <div class="col-8">
                             <h3 class="mb-0">Stores</h3>
                         </div>
-                        <div class="col-4 text-right">
-                            <!-- <a href="" class="btn btn-sm btn-primary">Add user</a> -->
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-4">
-                <div align="left">
+                        <div class="col-4 text-right banner-form">
+                        <div align="left">
                        
                        <form action="{{route('admin.stores-search')}}" method="get" role="search">
                          
@@ -31,9 +25,13 @@
                        </form>
                           
                    </div>
+                        </div>
+                    </div>
                 </div>
+                
+               
 
-                <div class="table-responsive">
+                <div class="table-responsive store-table">
                     <table class="table align-items-center table-flush data-table3">
                         <thead class="thead-light">
                             <tr>
@@ -86,7 +84,7 @@
         </div>
     </div>
 
-    @include('layouts.footers.auth')
+   
     </div>
 @endsection
 

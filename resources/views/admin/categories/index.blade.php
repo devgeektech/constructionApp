@@ -7,21 +7,15 @@
     </div>
 </div>
 <div class="container-fluid mt--7">
-    <div class="row">
+    <div class="row store-section">
         <div class="col">
             <div class="card shadow">
                 <div class="card-header border-0">
                     <div class="row align-items-center">
-                        <div class="col-8">
+                        <div class="col-lg-2 col-md-2 col-12">
                             <h3 class="mb-0">Categories</h3>
                         </div>
-                        <div class="col-4 text-right">
-                            <a href="{{ route('admin.category.add') }}" class="btn btn-sm btn-primary">Add Category</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-4">
+                        <div class="col-lg-8 col-md-8 col-12 banner-form">
                 <div align="left">
                        
                        <form action="{{route('admin.categories-search')}}" method="get" role="search">
@@ -32,8 +26,12 @@
                           
                    </div>
                 </div>
-
-                <div class="table-responsive">
+                        <div class="col-lg-2 col-md-2 col-12 text-right add-bnner">
+                            <a href="{{ route('admin.category.add') }}" class="btn btn-sm btn-primary">Add Category</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive store-table">
                     <table class="table align-items-center table-flush data-tabled">
                         <thead class="thead-light">
                             <tr>
@@ -83,7 +81,7 @@
         </div>
     </div>
 
-    @include('layouts.footers.auth')
+   
     </div>
 @endsection
 

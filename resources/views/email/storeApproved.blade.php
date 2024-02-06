@@ -2,57 +2,104 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Store Approval Notification</title>
     <style>
-        /* Define your styles here */
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             background-color: #f4f4f4;
-            padding: 20px;
         }
         .container {
             max-width: 600px;
-            margin: 0 auto;
+            margin: 20px auto;
+            padding: 20px;
             background-color: #fff;
             border-radius: 5px;
-            padding: 30px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        .header {
+        .logo {
             text-align: center;
+        }
+        .logo img {
+            max-width: 150px;
+            height: auto;
+            border-radius: 50%;
+        }
+        .heading {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
             margin-bottom: 30px;
         }
-        .header h1 {
-            color: #333;
-        }
-        .content {
-            color: #555;
-            line-height: 1.6;
-        }
-        .footer {
+        p{
             text-align: center;
-            margin-top: 30px;
-            color: #999;
-            font-size: 12px;
+        }
+        table {
+            width: 100%;
+        }
+        table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        table td:first-child {
+            font-weight: bold;
+            width: 30%;
+        }
+        .footer tr td{
+            border-bottom: 0px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Store Approval Notification</h1>
+<div class="container">
+        <div class="logo">
+            <img src="{{ asset('email/images/clogo.jpg') }}" alt="Logo">
         </div>
-        <div class="content">
-            <p>Hello {{ $store->owner }},</p>
-            <p>Your store {{$store->name }} has been approved!</p>
-            <p>Congratulations, your store is now live and visible to customers.</p>
-            <p>Thank you for choosing our platform.</p>
-        </div>
-        <div class="footer">
-            <p>This is an automated message, please do not reply.</p>
-            <p>&copy; 2024 Construction. All rights reserved.</p>
-        </div>
+        <h1 class="heading">Store Approval Notification</h1>
+        <table style="margin-top: 30px;">
+            <tr>
+                <td>Store Name:</td>
+                <td>{{ $store->name }}</td>
+            </tr>
+            <tr>
+                <td>Owner:</td>
+                <td>{{ $store->owner }}</td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td>{{ $store->user->email }}</td>
+            </tr>
+        </table>
+
+        <table style="background-color: #fff; width: 100%; text-align: center;" class="footer">
+
+            <tr>
+                <td>
+                    <p style="margin-bottom: 0; font-size:14px; text-align: left;">Best Regards,</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p style="margin: 0; font-size:14px; text-align: left;">Team</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <ul style="list-style: none; padding: 20px 0 0; display: flex; align-items: center;margin: 0; justify-content: center;">
+                        <li style="margin: 10px 10px 0 10px;"><a href="#" target="_blank"><img src="{{ asset('images/facebook.png')}}" alt="facebook" /></a>
+                        </li>
+                        <li style="margin: 10px 10px 0 10px;"><a href="#" target="_blank"><img src="{{ asset('images/instagram.png')}}" alt="instagram" /></a>
+                        </li>
+                        <li style="margin: 10px 10px 0 10px;"><a href="#" target="_blank"><img src="{{ asset('images/linkedin.png')}}" alt="linkedin" /></a>
+                        </li>
+                        <li style="margin: 10px 10px 0 10px;"><a href="#" target="_blank"><img src="{{ asset('images/youtube.png')}}" alt="youtube" /></a></li>
+                    </ul>example@example.com 0;">Copyright © {{ now()->year }} by Construction App All rights reserved.</p>
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>

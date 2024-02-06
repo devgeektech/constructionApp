@@ -8,17 +8,17 @@
     </div>
 </div>
 <div class="container-fluid mt--7">
-    <div class="row">
+    <div class="row banner-section">
         <div class="col">
             <div class="card shadow">
                 <div class="card-header border-0">
                     <div class="row align-items-center">
-                        <div class="col-3">
+                        <div class="col-lg-2 col-md-2 col-12">
                             <h3 class="mb-0">Banners</h3>
                         </div>
 
 
-                        <div class="col-6">
+                        <div class="col-lg-8 col-md-8 col-12 banner-form">
                       <div align="left" class="search-form">
                        
                        <form action="{{route('admin.banners-search')}}" method="get" role="search">
@@ -35,7 +35,7 @@
 
 
 
-                        <div class="col-3 text-right">
+                        <div class="col-lg-2 col-md-2 col-12 text-right add-bnner">
                             <a href="{{ route('admin.banner.add')}}" class="btn btn-sm btn-primary">Add Banner</a>
                         </div>
                         
@@ -86,7 +86,7 @@
         </div>
     </div>
 
-    @include('layouts.footers.auth')
+   
     </div>
 @endsection
 

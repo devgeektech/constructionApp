@@ -7,7 +7,7 @@
     </div>
 </div>
 <div class="container-fluid mt--7">
-    <div class="row">
+    <div class="row store-section">
         <div class="col">
             <div class="card shadow">
                 <div class="card-header border-0">
@@ -87,7 +87,6 @@
         </div>
     </div>
 
-    @include('layouts.footers.auth')
     </div>
 @endsection
 

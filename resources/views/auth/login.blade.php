@@ -51,7 +51,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="row mt-3">
+                <div class="row mt-3 create-acc">
                     <div class="col-6">
                         @if (Route::has('password.request'))
                             <a href="{{ route('password.request') }}" class="text-light">

@@ -62,7 +62,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="text-right">
+                            <div class="text-center submit-btn">
                                 <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
         </div>
     </div>
 
-    @include('layouts.footers.auth')
+    
     </div>
 @endsection
 

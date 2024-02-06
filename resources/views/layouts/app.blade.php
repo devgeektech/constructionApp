@@ -46,13 +46,16 @@
         @endauth
         
         <div class="main-content">
-            @include('layouts.navbars.navbar')
-            @yield('content')
+            <div class="minheight500">
+                @include('layouts.navbars.navbar')
+                @yield('content')
+            </div>
         </div>
 
         @guest()
             @include('layouts.footers.guest')
         @endguest
+        
         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
         <script src="{{ asset('argon') }}/vendor/jquery/dist/jquery.min.js"></script>
         <script src="{{ asset('argon') }}/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -79,6 +82,15 @@
 
                 toastr.{{ $toastr['type'] }}('{{ $toastr['message'] }}', '{{ $toastr['title'] }}');
             @endif
+    </script>
+    <script type="text/javascript">
+  
+    var url = "{{ route('changeLang') }}";
+
+    $(".changeLang").change(function(){
+        window.location.href = url + "?lang="+ $(this).val();
+    });
+
     </script>
     </body>
 </html>

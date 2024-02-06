@@ -7,7 +7,7 @@
     </div>
 </div>
 <div class="container-fluid mt--7">
-    <div class="row">
+    <div class="row store-section">
         <div class="col">
             <div class="card shadow">
                 <div class="card-header border-0">
@@ -62,7 +62,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="text-right">
+                            <div class="text-center submit-btn">
                                 <button type="submit" class="btn btn-success mt-4">{{ __('Update') }}</button>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
         </div>
     </div>
 
-    @include('layouts.footers.auth')
+   
     </div>
 @endsection
 

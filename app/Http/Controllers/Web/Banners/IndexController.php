@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Banner;
 use App\Models\Store;
-use Toastr;
+use Illuminate\Support\Facades\Storage;
 class IndexController extends Controller
 {
    /**
@@ -142,5 +142,23 @@ class IndexController extends Controller
            }
            return back()->with('error','No results Found');
         }
-     }
+    }
+
+    /**
+     * Delete Banner
+     */
+    public function destroy($id){
+        $banner = Banner::find($id);
+        if ($banner) {
+            // If category image exists, you might want to delete it from the storage as well
+            if ($banner->image) {
+                Storage::delete('public/images/' . $banner->image);
+            }
+            
+            $banner->delete();
+            return redirect()->route('admin.banners')->with('success', 'Banner deleted successfully');
+        } else {
+            return back()->with('error', 'Banner not found');
+        }
+    }
 }

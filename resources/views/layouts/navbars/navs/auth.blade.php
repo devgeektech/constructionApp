@@ -1,19 +1,13 @@
 <!-- Top navbar -->
 <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
     <div class="container-fluid">
+        <div class="row">
         <!-- Brand -->
+        <div class="col-lg-7 col-md-7 col-12">
         <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="{{ route('home') }}">{{ __('Dashboard') }}</a>
+        </div>
         <!-- Form -->
-        <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
-            <div class="form-group mb-0">
-                <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-search"></i></span>
-                    </div>
-                    <input class="form-control" placeholder="Search" type="text">
-                </div>
-            </div>
-        </form>
+        <div class="col-lg-5 col-md-5 col-12 admin">
         <div class="form-group mb-0">
             <select class="form-control changeLang">
                 <option value="en" {{ session()->get('locale') == 'en' ? 'selected' : '' }}>English</option>
@@ -52,5 +46,7 @@
                 </div>
             </li>
         </ul>
+    </div>
+        </div>
     </div>
 </nav>
