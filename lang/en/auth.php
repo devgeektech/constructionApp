@@ -18,5 +18,6 @@ return [
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'forgot_password_email' =>'We have e-mailed your password reset link!',
+    'email_already_sent' => 'An email has already been sent for this request.',
 
 ];

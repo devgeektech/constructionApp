@@ -5,6 +5,7 @@ use App\Models\Category;
 use App\Models\Role;  
 use App\Models\Store;  
 use App\Models\ProductImage;  
+use App\Models\Wishlist;  
 use Illuminate\Support\Facades\Storage;
 /**
  * Write code on Method
@@ -43,6 +44,18 @@ if (! function_exists('getProductImages')) {
         });
 
         return $images;
+    }
+}
+
+if (! function_exists('is_wishlist')) {
+    function is_wishlist($id)
+    {
+        $wishlist = Wishlist::where('product_id',$id)->first();
+        if($wishlist){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
 

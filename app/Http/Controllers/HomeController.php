@@ -32,8 +32,8 @@ class HomeController extends Controller
         $products = Product::count();
         $categories = Category::count();
         $users = User::count();
-        $getProducts = Product::paginate(5);
-        $getStores = Store::paginate(5);
+        $getProducts = Product::latest()->take(5)->get();
+        $getStores = Store::latest()->take(5)->get();
         return view('dashboard',compact(['stores','products','categories','users','getProducts','getStores']));
     } 
   

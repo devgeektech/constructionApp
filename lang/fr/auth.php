@@ -17,5 +17,5 @@ return [
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'forgot_password_email' => 'Nous avons envoyé votre lien de réinitialisation de mot de passe par e-mail!',
-
+    'email_already_sent' => 'Un e-mail a déjà été envoyé pour cette demande.',
 ];

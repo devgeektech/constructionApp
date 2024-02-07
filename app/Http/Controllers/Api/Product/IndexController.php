@@ -34,7 +34,8 @@ class IndexController extends BaseController
         try {
             $desiredLanguage = $request->header('Accept-Language');
             app()->setLocale($desiredLanguage);
-            $get_products = Product::where('status',1)->where('is_contribution',0)->get();
+
+            $get_products = Product::where('status',1)->where('is_contribution',0)->paginate(20);
             $products = ProductResource::collection($get_products);
             if($products){
                 return $this->sendResponse($products, trans('messages.product_retrieve'));
@@ -57,7 +58,7 @@ class IndexController extends BaseController
         try {
 
             $input = $request->all();
-   
+           
             $validator = Validator::make($input, [
                 'name' => 'required',
                 'description'=> 'required',
@@ -268,6 +269,7 @@ class IndexController extends BaseController
       
             $input = $request->all();
 
+            $product_name = $input['name'] ?? null;
             $cat_id = $input['cat_id'] ?? null;
             $min_rating = $input['ratings'] ?? null;
             $min_price = $input['min_price'] ?? null;
@@ -275,6 +277,12 @@ class IndexController extends BaseController
             
             $query = Product::query();
 
+            if ($product_name !== null) {
+                $query->where(DB::raw("JSON_EXTRACT(name, '$.en')"), 'like', '%' . $product_name . '%')
+                             ->orWhere(DB::raw("JSON_EXTRACT(name, '$.fr')"), 'like', '%' . $product_name . '%')
+                             ->orWhere(DB::raw("JSON_EXTRACT(name, '$.ln')"), 'like', '%' . $product_name . '%')
+                             ->where('is_contribution',0);
+            }
             if ($cat_id !== null) {
                 $query->where('category_id', $cat_id);
             }
@@ -289,7 +297,7 @@ class IndexController extends BaseController
                 $query->where('price', '>=', $min_price)->where('price', '<=', $max_price);
             }
 
-            $get_products = $query->get();
+            $get_products = $query->paginate(20);
            
             $products = ProductResource::collection($get_products);
             if($products){

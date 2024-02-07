@@ -82,7 +82,14 @@ class RegisterController extends BaseController
         $request->validate([
             'email' => 'required|email|exists:users',
         ]);
-       
+
+        $tokenData = DB::table('password_reset_tokens')
+        ->where('email', $request->email)
+        ->first();
+
+        if ($tokenData) {
+            return $this->sendResponse($request->email, trans('auth.email_already_sent'));
+        }
         $token = Str::random(64);
 
         DB::table('password_reset_tokens')->insert([

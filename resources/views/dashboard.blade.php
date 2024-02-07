@@ -32,9 +32,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                            
                                     @foreach($getProducts as $product)
-                                        <tr>
+                                        <tr class="clickable-row" data-href="{{ route('product.view', $product->id) }}" style="cursor:pointer">
                                             <td>{{ $product->name }}</td>
                                             <td>{{ $product->price }}</td>
                                             <td><img src="{{asset(Storage::url('images/' . $product->image))}}" height="40" width="40"></td>
@@ -44,7 +43,6 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{ $getProducts->appends(request()->input())->links() }}
                         </div>
                         </div>
                     </div>
@@ -63,28 +61,18 @@
                     <div class="card-body">
                         <!-- Chart -->
                         <div class="chart">
-                            <div class="">
-                                <table class="table align-items-center table-flush store">
-                                    <thead class="">
-                                        <tr>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Address</th>
-                                        <th scope="col">Logo</th>
-                                       
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($getStores as $store)
-                                            <tr>
-                                                <td>{{ $store->name }}</td>
-                                                <td>{{ $store->address }}</td>
-                                                <td><img src="{{asset(Storage::url('images/' . $store->logo))}}" height="40" width="40"></td>
-                                              
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                {{ $getStores->appends(request()->input())->links() }}
+                            <div class="row">
+                                @foreach($getStores as $store)
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card">
+                                            <a href="{{route('store.view',$store->id)}}"><img src="{{ asset(Storage::url('images/' . $store->logo)) }}"  class="card-img-top rounded-circle" alt="Store Logo">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ $store->name }}</h5>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -98,4 +86,11 @@
 @push('js')
     <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.min.js"></script>
     <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.extension.js"></script>
+    <script>
+    $(document).ready(function(){
+        $(".clickable-row").click(function() {
+            window.location = $(this).data("href");
+        });
+    });
+</script>
 @endpush

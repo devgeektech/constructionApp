@@ -59,7 +59,7 @@
                     <tr>
                         <td style="text-align:center;">
                           <a href="#" title="logo" target="_blank">
-                            <img src="{{ asset('images/clogo.jpg') }}" alt="Logo" style="width:100px;">
+                            <img src="{{ asset('images/clogo.jpg') }}" style="width:100px;">
                           </a>
                         </td>
                     </tr>
