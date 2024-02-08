@@ -34,7 +34,7 @@ class ProductResource extends JsonResource
             'is_contribution' => $this->is_contribution,
             'total_ratings' => $product_rating,
             'avg_ratings' => $averageRating,
-            'wishlist' => is_wishlist($this->id)
+            'wishlist' => is_wishlist(auth('sanctum')->user()->id,$this->id)
         ];
     }
 }

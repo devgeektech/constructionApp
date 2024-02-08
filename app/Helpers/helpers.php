@@ -48,9 +48,9 @@ if (! function_exists('getProductImages')) {
 }
 
 if (! function_exists('is_wishlist')) {
-    function is_wishlist($id)
+    function is_wishlist($user_id,$id)
     {
-        $wishlist = Wishlist::where('product_id',$id)->first();
+        $wishlist = Wishlist::where('user_id',$user_id)->where('product_id',$id)->first();
         if($wishlist){
             return true;
         }else{

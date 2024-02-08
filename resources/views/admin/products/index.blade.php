@@ -99,7 +99,7 @@
     <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
     <script>
        
-        $(function() {
+       $(function() {
             $('.toggle-class').change(function() {
                 var status = $(this).prop('checked') == true ? 0 : 1; 
                 var id = $(this).data('id'); 
@@ -110,7 +110,8 @@
                     url: '/changeProductStatus', // Your route here
                     data: {'status': status, 'id': id},
                     success: function(data){
-                    console.log(data.success)
+                    
+                    $(this).addClass('btn-success');
                     }
                 });
             });

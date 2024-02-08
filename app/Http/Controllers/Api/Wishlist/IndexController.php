@@ -8,9 +8,15 @@ use App\Models\Wishlist;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Validator;
-
+use App\Http\Resources\WishlistResource;
 class IndexController extends BaseController
 {
+
+    protected $user;
+   
+    function __construct() {
+        $this->user = auth('sanctum')->user() ? auth('sanctum')->user()->id:null;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,9 +27,9 @@ class IndexController extends BaseController
         try {
             $desiredLanguage = $request->header('Accept-Language');
             app()->setLocale($desiredLanguage);
-            $wishlist = Wishlist::all();
+            $wishlist = Wishlist::with('product')->where('user_id',$this->user)->get();
             if($wishlist){
-                return $this->sendResponse($wishlist, trans('messages.wishlist_retrieve'));
+                return $this->sendResponse(WishlistResource::collection($wishlist), trans('messages.wishlist_retrieve'));
             }
             return $this->sendResponse([], trans('messages.no_wishlist_retrieve'));
         } catch (\Throwable $th) {
