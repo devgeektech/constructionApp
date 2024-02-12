@@ -35,6 +35,14 @@ if (! function_exists('getStoreName')) {
         return $store;
     }
 }
+if (! function_exists('getStoreAddress')) {
+    function getStoreAddress($id)
+    {
+        $store = Store::where('id',$id)->first();
+        return $store;
+    }
+}
+
 
 if (! function_exists('getProductImages')) {
     function getProductImages($id)

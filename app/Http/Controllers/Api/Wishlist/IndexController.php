@@ -27,7 +27,7 @@ class IndexController extends BaseController
         try {
             $desiredLanguage = $request->header('Accept-Language');
             app()->setLocale($desiredLanguage);
-            $wishlist = Wishlist::with('product')->where('user_id',$this->user)->get();
+            $wishlist = Wishlist::with('product')->where('user_id',$this->user)->paginate(20);
             if($wishlist){
                 return $this->sendResponse(WishlistResource::collection($wishlist), trans('messages.wishlist_retrieve'));
             }
@@ -77,4 +77,60 @@ class IndexController extends BaseController
         }
         
     } 
+
+    /**
+     * Display a listing of products wishlist.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function product_wishlist(Request $request): JsonResponse
+    {
+        try {
+            $desiredLanguage = $request->header('Accept-Language');
+            app()->setLocale($desiredLanguage);
+
+            $wishlist = Wishlist::where('user_id', $this->user)
+            ->whereHas('product', function ($query) {
+                $query->where('is_contribution', 0);
+            })
+            ->with('product')
+            ->paginate(20);
+            if($wishlist){
+                return $this->sendResponse(WishlistResource::collection($wishlist), trans('messages.wishlist_retrieve'));
+            }
+            return $this->sendResponse([], trans('messages.no_wishlist_retrieve'));
+        } catch (\Throwable $th) {
+            return $this->sendError('Validation Error.', $th->getMessage());     
+        }
+        
+        
+    }
+
+     /**
+     * Display a listing of contribution wishlist.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function contribution_wishlist(Request $request): JsonResponse
+    {
+        try {
+            $desiredLanguage = $request->header('Accept-Language');
+            app()->setLocale($desiredLanguage);
+
+            $wishlist = Wishlist::where('user_id', $this->user)
+            ->whereHas('product', function ($query) {
+                $query->where('is_contribution', 1);
+            })
+            ->with('product')
+            ->paginate(20);
+            if($wishlist){
+                return $this->sendResponse(WishlistResource::collection($wishlist), trans('messages.wishlist_retrieve'));
+            }
+            return $this->sendResponse([], trans('messages.no_wishlist_retrieve'));
+        } catch (\Throwable $th) {
+            return $this->sendError('Validation Error.', $th->getMessage());     
+        }
+        
+        
+    }
 }

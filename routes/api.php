@@ -56,7 +56,8 @@ Route::middleware('auth.sanctum')->group( function () {
     Route::get('store/{id}', [App\Http\Controllers\Api\Store\IndexController::class,'show']);
     Route::post('store/{id}', [App\Http\Controllers\Api\Store\IndexController::class,'update']);
     Route::delete('store/{id}', [App\Http\Controllers\Api\Store\IndexController::class,'destroy']);
-
+    Route::get('featured-stores', [App\Http\Controllers\Api\Store\IndexController::class,'get_featured_stores']);
+    
     /**
      * Banner Routes
      */
@@ -74,5 +75,9 @@ Route::middleware('auth.sanctum')->group( function () {
      */
     Route::get('wishlist',[App\Http\Controllers\Api\Wishlist\IndexController::class,'index']);
     Route::post('wishlist',[App\Http\Controllers\Api\Wishlist\IndexController::class,'store']);
+    Route::get('product-wishlist',[App\Http\Controllers\Api\Wishlist\IndexController::class,'product_wishlist']);
+    Route::get('contribution-wishlist',[App\Http\Controllers\Api\Wishlist\IndexController::class,'contribution_wishlist']);
+
+
 });
 

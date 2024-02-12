@@ -234,7 +234,7 @@ class RegisterController extends BaseController
      */
      public function get_profile() {
         try {
-            $get_profile = User::where('id',auth()->user()->id)->first();
+            $get_profile = User::with('stores')->with('products')->where('id',auth('sanctum')->user()->id)->first();   
             if($get_profile){
                 $get_profile->image = asset(Storage::url('images/' . $get_profile->image));
                 return $this->sendResponse($get_profile, trans('messages.get_profile'));

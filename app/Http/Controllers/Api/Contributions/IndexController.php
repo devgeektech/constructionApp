@@ -33,7 +33,7 @@ class IndexController extends BaseController
             $desiredLanguage = $request->header('Accept-Language');
             app()->setLocale($desiredLanguage);
 
-            $get_contributions = Product::where('status',1)->where('is_contribution',1)->get();
+            $get_contributions = Product::where('status',1)->where('is_contribution',1)->paginate(20);
             $contributions = ProductResource::collection($get_contributions);
             if($contributions){
                 return $this->sendResponse($contributions, trans('messages.contribute_retrieve'));

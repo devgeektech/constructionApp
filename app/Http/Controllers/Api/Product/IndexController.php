@@ -19,10 +19,10 @@ use Illuminate\Support\Facades\Storage;
 class IndexController extends BaseController
 {
 
-    protected $user;
+    protected static $user;
    
-    function __construct() {
-        $this->user = auth('sanctum')->user() ? auth('sanctum')->user()->id:null;
+    public  function __construct() {
+        self::$user = auth('sanctum')->user() ? auth('sanctum')->user()->id:null;
     }
     /**
      * Display a listing of the resource.
@@ -97,9 +97,11 @@ class IndexController extends BaseController
             $product->setTranslation('description', 'fr', $request->description);
             $product->setTranslation('description', 'ln', $request->description);
             
+            $product->min_price = isset($request->min_price) ? $request->min_price: '0.00';
+
             $product->price = $request->price;
             $product->image = $firstImage ;
-            $product->user_id = $this->user;
+            $product->user_id = self::$user;
             $product->category_id = $request->category_id;
             $product->store_id = $request->store_id;
             $product->setTranslation('availability', 'en', $request->availability);
@@ -113,7 +115,7 @@ class IndexController extends BaseController
             foreach ($images as $key => $image) {
 
                 $data = [
-                    'user_id' => $this->user,
+                    'user_id' => self::$user,
                     'product_id' => $product->id,
                     'name' => $image['name']
                 ];
@@ -211,9 +213,10 @@ class IndexController extends BaseController
             $product->setTranslation('description', 'fr', $request->description);
             $product->setTranslation('description', 'ln', $request->description);
             
+            $product->min_price = isset($request->min_price) ? $request->min_price: '0.00';
             $product->price = $request->price;
             $product->image = $firstImage ;
-            $product->user_id = $this->user;
+            $product->user_id = self::$user;
             $product->category_id = $request->category_id;
             $product->store_id = $request->store_id;
             $product->setTranslation('availability', 'en', $request->availability);
@@ -228,7 +231,7 @@ class IndexController extends BaseController
             foreach ($images as $key => $image) {
 
                 $data = [
-                    'user_id' => $this->user,
+                    'user_id' => self::$user,
                     'product_id' => $product->id,
                     'name' => $image['name']
                 ];
@@ -294,7 +297,7 @@ class IndexController extends BaseController
             }
 
             if ($min_price !== null || $max_price !== null) {
-                $query->where('price', '>=', $min_price)->where('price', '<=', $max_price);
+                $query->where('min_price', '>=', $min_price)->where('price', '<=', $max_price);
             }
 
             $get_products = $query->paginate(20);
@@ -312,12 +315,15 @@ class IndexController extends BaseController
 
     public function products_by_category($id){
         try {
-
-            $product = Product::where('category_id',$id)->get();
-            if (is_null($product)) {
+           
+            $get_products = Product::where('status',1)->where('category_id',$id)->paginate(20);
+            $products = ProductResource::collection($get_products);
+            
+            if (is_null($products)) {
                 return $this->sendError('Product not found.');
-            }
-            return $this->sendResponse(new ProductResource($product), trans('messages.product_retrieve'));
+            } 
+          
+            return $this->sendResponse($products, trans('messages.product_retrieve'));
         } catch (\Throwable $th) {
             return $this->sendError('Something went wrong', $th->getMessage());   
         }

@@ -16,8 +16,6 @@
                         <div class="col-lg-2 col-md-2 col-12">
                             <h3 class="mb-0">Banners</h3>
                         </div>
-
-
                         <div class="col-lg-8 col-md-8 col-12 banner-form">
                       <div align="left" class="search-form">
                        
@@ -58,7 +56,7 @@
                             
                             @foreach($banners as $banner)
                                 <tr>
-                                    <td><img src="{{ $banner->name ? asset(Storage::url('images/' . $banner->name)) : asset(Storage::url('images/Image_not_available.png')) }}" height="40" width="40"></td>
+                                    <td><img src="{{ $banner->name ? asset(Storage::url('images/' . $banner->name)) : asset(Storage::url('images/Image_not_available.png')) }}" height="40" width="40" class="img-thumbnail image-to-popup"></td>
                                     <td>{{ $banner->store->name }}</td>
                                     <td><input type="checkbox" data-id="{{ $banner->id }}" {{ $banner->status == 1 ? 'checked' : '' }} class="toggle-class" data-toggle="toggle" data-on="Active" data-off="Inactive" data-onstyle="success" data-offstyle="danger"></td>
                                     <td>
@@ -88,6 +86,22 @@
 
    
     </div>
+
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+            </button>
+       
+        </div>
+        <div class="modal-body d-flex justify-content-center">
+            <img src="" id="modalImage" class="img-fluid">
+        </div>
+        </div>
+    </div>
+    </div>
+    
 @endsection
 
 @push('js')
@@ -122,6 +136,19 @@
                 window.location.href = "{{ route('admin.banners') }}";
             }
         }
+
+        $(document).ready(function() {
+            $('.image-to-popup').on('click', function() {
+                // Get the source of the clicked image
+                var imageSrc = $(this).attr('src');
+                // Set the source for the modal's image
+                $('#modalImage').attr('src', imageSrc);
+                // Show the modal
+                $('#imageModal').modal('show');
+            });
+        });
+
+
     </script>
 
 @endpush

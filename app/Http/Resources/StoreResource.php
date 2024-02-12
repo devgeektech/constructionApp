@@ -20,13 +20,17 @@ class StoreResource extends JsonResource
             'user_id' => $this->user_id,
             'name' => $this->name,
             'owner' => $this->owner,
+            'address' => $this->address,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'logo' => asset('storage/images/' .$this->logo),
             'banner' => asset('storage/images/' .$this->banner),
             'phone' => $this->phone,
             'social_links' => $this->social_links,
-            'count' => $this->count
+            'is_featured' => $this->is_featured,
+            'count' => $this->count,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
         ];
     }
 }

@@ -27,7 +27,7 @@ class IndexController extends BaseController
             app()->setLocale($desiredLanguage);
 
             //get stores
-            $get_stores = Store::where('status',1)->orderBy('count','desc')->get();
+            $get_stores = Store::where('status',1)->orderBy('count','desc')->paginate(20);
             $stores = StoreResource::collection($get_stores);
 
             return $this->sendResponse($stores, trans('messages.retrieve_store'));
@@ -201,5 +201,18 @@ class IndexController extends BaseController
         }
         return $this->sendResponse([], trans('messages.store_delete'));
     }
+    /**
+     * Get Featured Stores
+     */
+    public function get_featured_stores(){
+        try {
+            //get featured stores
+            $get_stores = Store::where('is_featured',1)->paginate(20);
+            $stores = StoreResource::collection($get_stores);
 
+            return $this->sendResponse($stores, trans('messages.retrieve_store'));
+        } catch (\Throwable $th) {
+            return $this->sendError('Something went wrong', $th->getMessage());     
+        }
+    }
 }

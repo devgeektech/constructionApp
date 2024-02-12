@@ -8,15 +8,20 @@ use App\Models\Banner;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Api\BaseController as BaseController;
 use Validator;
-
+use App\Http\Resources\BannerResource;
 class IndexController extends BaseController
 {
     /**
      * Get Banners
      */
-    public function index(){
+    public function index(Request $request): JsonResponse
+    {
+        $desiredLanguage = $request->header('Accept-Language');
+        app()->setLocale($desiredLanguage);
+
         try {
-            $banners = Banner::where('status',1)->get();
+            $get_banners = Banner::where('status',1)->paginate(20);
+            $banners = BannerResource::collection($get_banners);
             if($banners){
                 return $this->sendResponse($banners, trans('messages.get_banners'));
             }
@@ -53,7 +58,7 @@ class IndexController extends BaseController
             $banner->store_id = $request->store_id;
             $banner->save();
             if($banner){
-                return $this->sendResponse($banner, trans('messages.store_banner'));
+                return $this->sendResponse(new BannerResource($banner), trans('messages.store_banner'));
             }
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
         } catch (\Throwable $th) {

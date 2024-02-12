@@ -64,6 +64,11 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
     {
         return $this->hasMany(Product::class,'user_id','id');
     }
+	public function stores()
+    {
+        return $this->hasMany(Store::class);
+    }
+
 	// protected function role_id(): Attribute
     // {
     //     return new Attribute(

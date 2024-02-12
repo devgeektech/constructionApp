@@ -69,7 +69,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ (request()->is('banners')) || (request()->is('banner/*')) ? 'active' : '' }}" href="{{ route('admin.banners') }}">
-                        <i class="ni ni-shop text-primary "></i> {{ __('messages.banners') }}
+                        <i class="ni ni-books text-primary "></i> {{ __('messages.banners') }}
                     </a>
                 </li>
                 <li class="nav-item">
